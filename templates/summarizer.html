@@ -1,6 +1,7 @@
+
 {% extends "base.html" %}
 
-{% block title %}Text Summarizer - SmartStudy{% endblock %}
+{% block title %}AI Summarizer - SmartStudy{% endblock %}
 
 {% block content %}
 <div class="bg-white dark:bg-slate-900 text-gray-900 dark:text-white transition-colors duration-300">
@@ -73,103 +74,101 @@
                             <i class="fas fa-file-text text-white text-xl"></i>
                         </div>
                         <div>
-                            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Text Summarizer</h1>
+                            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">AI Summarizer</h1>
                             <p class="text-gray-600 dark:text-gray-300">Transform lengthy texts into concise summaries</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Input Section -->
-                <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 mb-8 border border-gray-200 dark:border-slate-700 transition-colors duration-300">
-                    <form id="summarizer-form" method="POST" enctype="multipart/form-data" class="space-y-6">
-                        <!-- File Upload -->
+                <!-- Summarizer Form -->
+                <div class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-6 mb-8 transition-colors duration-300">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Create Summary</h2>
+                    
+                    <form id="summarizer-form" class="space-y-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Upload Text File
-                            </label>
-                            <div class="flex items-center justify-center w-full">
-                                <label for="file-upload" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 dark:border-slate-600 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-slate-700 hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors">
-                                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                        <i class="fas fa-cloud-upload-alt text-gray-400 text-2xl mb-2"></i>
-                                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                                            <span class="font-semibold">Click to upload</span> or drag and drop
-                                        </p>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400">TXT files only</p>
-                                    </div>
-                                    <input id="file-upload" name="file" type="file" accept=".txt" class="hidden" onchange="handleFileUpload(this)">
-                                </label>
-                            </div>
-                            <div id="file-info" class="mt-2 text-sm text-gray-600 dark:text-gray-400 hidden"></div>
-                        </div>
-
-                        <div class="text-center text-gray-500 dark:text-gray-400">or</div>
-
-                        <!-- Text Input -->
-                        <div>
-                            <label for="text-input" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Paste Your Text
-                            </label>
+                            <label class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Input Text</label>
                             <textarea 
-                                id="text-input" 
+                                id="input-text" 
                                 name="text" 
-                                rows="10" 
-                                class="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors resize-none"
-                                placeholder="Enter the text you want to summarize here..."
+                                rows="8" 
+                                placeholder="Paste your text here or upload a .txt file..."
+                                class="w-full p-4 bg-gray-100 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-gray-300 placeholder-gray-500 dark:placeholder-gray-400"
                             ></textarea>
                         </div>
 
-                        <!-- Options -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="summary-length" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    Summary Length
-                                </label>
-                                <select id="summary-length" name="length" class="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors">
-                                    <option value="short">Short (2-3 sentences)</option>
-                                    <option value="medium" selected>Medium (1 paragraph)</option>
-                                    <option value="long">Long (2-3 paragraphs)</option>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <div class="flex-1">
+                                <label class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Upload File</label>
+                                <input 
+                                    type="file" 
+                                    id="file-input" 
+                                    accept=".txt" 
+                                    class="w-full p-3 bg-gray-100 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg text-gray-900 dark:text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-purple-50 dark:file:bg-purple-900 file:text-purple-700 dark:file:text-purple-300 hover:file:bg-purple-100 dark:hover:file:bg-purple-800 transition-colors"
+                                >
+                            </div>
+                            
+                            <div class="flex-1">
+                                <label class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Summary Length</label>
+                                <select 
+                                    id="length-select" 
+                                    name="length" 
+                                    class="w-full p-3 bg-gray-100 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-gray-300"
+                                >
+                                    <option value="short">Short</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="long">Long</option>
                                 </select>
                             </div>
-
-                            <div>
-                                <label for="summary-style" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    Summary Style
-                                </label>
-                                <select id="summary-style" name="style" class="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors">
-                                    <option value="general" selected>General Summary</option>
+                            
+                            <div class="flex-1">
+                                <label class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Style</label>
+                                <select 
+                                    id="style-select" 
+                                    name="style" 
+                                    class="w-full p-3 bg-gray-100 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-gray-300"
+                                >
+                                    <option value="general" selected>General</option>
+                                    <option value="academic">Academic</option>
                                     <option value="bullet">Bullet Points</option>
-                                    <option value="academic">Academic Style</option>
-                                    <option value="simple">Simple Language</option>
                                 </select>
                             </div>
                         </div>
 
-                        <!-- Submit Button -->
                         <button 
                             type="submit" 
                             id="summarize-btn"
-                            class="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-4 px-6 rounded-lg transition-colors flex items-center justify-center space-x-2"
+                            class="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg font-medium transition-colors flex items-center justify-center"
                         >
-                            <i class="fas fa-magic"></i>
-                            <span>Generate Summary</span>
+                            <i class="fas fa-magic mr-2"></i>
+                            Generate Summary
                         </button>
                     </form>
                 </div>
 
-                <!-- Output Section -->
-                <div id="output-section" class="bg-white dark:bg-slate-800 rounded-2xl p-8 border border-gray-200 dark:border-slate-700 transition-colors duration-300 hidden">
-                    <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-xl font-bold text-gray-900 dark:text-white">Summary</h2>
-                        <div class="flex space-x-2">
-                            <button onclick="copySummary()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
-                                <i class="fas fa-copy mr-2"></i>Copy
-                            </button>
-                            <button onclick="downloadSummary()" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
-                                <i class="fas fa-download mr-2"></i>Download
-                            </button>
-                        </div>
+                <!-- Summary Result -->
+                <div id="summary-result" class="hidden bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-6 transition-colors duration-300">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Summary Result</h3>
+                        <button 
+                            id="copy-summary"
+                            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center"
+                        >
+                            <i class="fas fa-copy mr-2"></i>
+                            Copy
+                        </button>
                     </div>
-                    <div id="summary-output" class="prose dark:prose-invert max-w-none p-6 bg-gray-50 dark:bg-slate-700 rounded-lg border border-gray-200 dark:border-slate-600"></div>
+                    <div 
+                        id="summary-text" 
+                        class="p-4 bg-gray-50 dark:bg-slate-700 rounded-lg text-gray-900 dark:text-gray-300 leading-relaxed"
+                    ></div>
+                </div>
+
+                <!-- Loading State -->
+                <div id="loading-state" class="hidden bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-6 text-center transition-colors duration-300">
+                    <div class="flex items-center justify-center space-x-3">
+                        <div class="spinner"></div>
+                        <span class="text-gray-600 dark:text-gray-300">Generating summary...</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -177,91 +176,86 @@
 </div>
 
 <script>
-function handleFileUpload(input) {
-    const file = input.files[0];
-    const fileInfo = document.getElementById('file-info');
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('summarizer-form');
+    const fileInput = document.getElementById('file-input');
+    const textArea = document.getElementById('input-text');
+    const submitBtn = document.getElementById('summarize-btn');
+    const loadingState = document.getElementById('loading-state');
+    const summaryResult = document.getElementById('summary-result');
+    const summaryText = document.getElementById('summary-text');
+    const copyBtn = document.getElementById('copy-summary');
 
-    if (file) {
-        fileInfo.classList.remove('hidden');
-        fileInfo.innerHTML = `<i class="fas fa-file-text mr-2"></i>Selected: ${file.name} (${(file.size/1024).toFixed(1)} KB)`;
-
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById('text-input').value = e.target.result;
-        };
-        reader.readAsText(file);
-    } else {
-        fileInfo.classList.add('hidden');
-    }
-}
-
-document.getElementById('summarizer-form').addEventListener('submit', async function(e) {
-    e.preventDefault();
-
-    const btn = document.getElementById('summarize-btn');
-    const outputSection = document.getElementById('output-section');
-    const summaryOutput = document.getElementById('summary-output');
-
-    const formData = new FormData(this);
-
-    // Show loading state
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Generating Summary...';
-
-    try {
-        const response = await fetch('{{ url_for("summarizer") }}', {
-            method: 'POST',
-            body: formData
-        });
-
-        if (response.ok) {
-            const result = await response.json();
-            summaryOutput.innerHTML = `<p class="text-gray-900 dark:text-white leading-relaxed">${result.summary}</p>`;
-            outputSection.classList.remove('hidden');
-            outputSection.scrollIntoView({ behavior: 'smooth' });
-
-            // Log activity
-            if (window.SmartStudy) {
-                window.SmartStudy.logActivity('summary_generated', 'Generated text summary');
-                window.SmartStudy.updateProgress('summaries');
-            }
-        } else {
-            throw new Error('Failed to generate summary');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        if (window.SmartStudy) {
-            window.SmartStudy.showNotification('Error generating summary. Please try again.', 'error');
-        }
-    } finally {
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-magic mr-2"></i>Generate Summary';
-    }
-});
-
-function copySummary() {
-    const summaryText = document.getElementById('summary-output').textContent;
-    navigator.clipboard.writeText(summaryText).then(() => {
-        if (window.SmartStudy) {
-            window.SmartStudy.showNotification('Summary copied to clipboard!', 'success');
+    // Handle file upload
+    fileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file && file.type === 'text/plain') {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                textArea.value = e.target.result;
+            };
+            reader.readAsText(file);
         }
     });
-}
 
-function downloadSummary() {
-    const summaryText = document.getElementById('summary-output').textContent;
-    const blob = new Blob([summaryText], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'summary.txt';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    // Handle form submission
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const text = textArea.value.trim();
+        if (!text) {
+            if (window.SmartStudy && window.SmartStudy.showNotification) {
+                window.SmartStudy.showNotification('Please enter some text to summarize', 'warning');
+            }
+            return;
+        }
 
-    if (window.SmartStudy) {
-        window.SmartStudy.showNotification('Summary downloaded!', 'success');
-    }
-}
+        const formData = new FormData();
+        formData.append('text', text);
+        formData.append('length', document.getElementById('length-select').value);
+        formData.append('style', document.getElementById('style-select').value);
+
+        // Show loading state
+        loadingState.classList.remove('hidden');
+        summaryResult.classList.add('hidden');
+        submitBtn.disabled = true;
+
+        try {
+            const response = await fetch('{{ url_for("summarizer") }}', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.summary) {
+                summaryText.textContent = data.summary;
+                summaryResult.classList.remove('hidden');
+                
+                if (window.SmartStudy && window.SmartStudy.showNotification) {
+                    window.SmartStudy.showNotification('Summary generated successfully!', 'success');
+                }
+            } else {
+                throw new Error(data.error || 'Failed to generate summary');
+            }
+        } catch (error) {
+            if (window.SmartStudy && window.SmartStudy.showNotification) {
+                window.SmartStudy.showNotification('Error: ' + error.message, 'error');
+            }
+        } finally {
+            loadingState.classList.add('hidden');
+            submitBtn.disabled = false;
+        }
+    });
+
+    // Handle copy functionality
+    copyBtn.addEventListener('click', function() {
+        navigator.clipboard.writeText(summaryText.textContent).then(function() {
+            if (window.SmartStudy && window.SmartStudy.showNotification) {
+                window.SmartStudy.showNotification('Summary copied to clipboard!', 'success');
+            }
+        });
+    });
+});
 </script>
+{% endblock %}

@@ -8,9 +8,37 @@ let currentTheme = localStorage.getItem('smartstudy_theme') || 'dark';
 let notificationQueue = [];
 let isProcessing = false;
 
-// Performance optimizations
+// Enhanced performance optimizations
 const debounceMap = new Map();
 const memoCache = new Map();
+const intersectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('animate-fade-in');
+        }
+    });
+}, { threshold: 0.1 });
+
+// Performance monitoring
+const performanceMonitor = {
+    startTime: performance.now(),
+    marks: new Map(),
+    
+    mark(name) {
+        this.marks.set(name, performance.now());
+    },
+    
+    measure(name, startMark) {
+        const startTime = this.marks.get(startMark) || this.startTime;
+        const duration = performance.now() - startTime;
+        
+        if (duration > 100) { // Log slow operations
+            console.warn(`Performance: ${name} took ${duration.toFixed(2)}ms`);
+        }
+        
+        return duration;
+    }
+};
 
 // Initialize app immediately
 initializeApp();
@@ -524,52 +552,75 @@ class NotificationManager {
         const notification = document.createElement('div');
         const id = Date.now() + Math.random();
         
-        notification.className = `notification-item transform transition-all duration-300 translate-x-full opacity-0 ${this.getTypeClass(type)} p-4 rounded-lg shadow-lg border backdrop-blur-sm`;
+        notification.className = `notification-item notification-${type} transform transition-all duration-500 translate-x-full opacity-0 scale-95 p-5`;
         notification.innerHTML = `
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-3">
-                    <i class="fas ${this.getTypeIcon(type)} text-lg"></i>
-                    <span class="font-medium">${message}</span>
+            <div class="relative z-10">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="flex items-center space-x-3">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-current bg-opacity-20 flex items-center justify-center">
+                            <i class="fas ${this.getTypeIcon(type)} text-sm"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-semibold text-sm leading-relaxed">${message}</p>
+                        </div>
+                    </div>
+                    <button onclick="window.SmartStudy.dismissNotification(${id})" 
+                            class="ml-3 flex-shrink-0 w-6 h-6 rounded-full bg-current bg-opacity-20 hover:bg-opacity-30 transition-all duration-200 flex items-center justify-center group">
+                        <i class="fas fa-times text-xs group-hover:scale-110 transition-transform"></i>
+                    </button>
                 </div>
-                <button onclick="window.SmartStudy.dismissNotification(${id})" 
-                        class="ml-2 hover:opacity-75 transition-opacity">
-                    <i class="fas fa-times"></i>
-                </button>
+                
+                <!-- Glassmorphic progress bar -->
+                <div class="w-full h-1 bg-white bg-opacity-20 rounded-full overflow-hidden">
+                    <div class="bg-current h-full rounded-full transition-all duration-${duration} ease-linear relative overflow-hidden" 
+                         style="width: 100%">
+                    </div>
+                </div>
             </div>
-            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1 mt-2">
-                <div class="bg-current h-1 rounded-full transition-all duration-${duration} ease-linear" 
-                     style="width: 100%"></div>
+            
+            <!-- Water ripple effect overlay -->
+            <div class="absolute inset-0 opacity-30 pointer-events-none">
+                <div class="water-ripple"></div>
             </div>
         `;
 
         notification.dataset.id = id;
         this.container.appendChild(notification);
 
-        // Animate in
-        setTimeout(() => {
-            notification.classList.remove('translate-x-full', 'opacity-0');
-        }, 100);
+        // Enhanced animation sequence
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full', 'opacity-0', 'scale-95');
+                notification.classList.add('scale-100');
+            }, 50);
+        });
 
-        // Auto dismiss
+        // Start progress bar animation with delay
+        const progressBar = notification.querySelector('.bg-current');
+        setTimeout(() => {
+            progressBar.style.width = '0%';
+        }, 300);
+
+        // Auto dismiss with enhanced animation
         setTimeout(() => {
             this.dismiss(id);
         }, duration);
 
-        // Start progress bar animation
-        const progressBar = notification.querySelector('.bg-current');
-        setTimeout(() => {
-            progressBar.style.width = '0%';
-        }, 200);
+        // Add subtle hover effects
+        notification.addEventListener('mouseenter', () => {
+            notification.style.transform = 'translateY(-2px) scale(1.02)';
+            progressBar.style.animationPlayState = 'paused';
+        });
+
+        notification.addEventListener('mouseleave', () => {
+            notification.style.transform = 'translateY(0) scale(1)';
+            progressBar.style.animationPlayState = 'running';
+        });
     }
 
     getTypeClass(type) {
-        const classes = {
-            success: 'bg-green-500/90 text-white border-green-400',
-            error: 'bg-red-500/90 text-white border-red-400',
-            warning: 'bg-yellow-500/90 text-black border-yellow-400',
-            info: 'bg-blue-500/90 text-white border-blue-400'
-        };
-        return classes[type] || classes.info;
+        // Classes are now handled via CSS for glassmorphic effects
+        return '';
     }
 
     getTypeIcon(type) {
@@ -624,8 +675,8 @@ function optimizedDebounce(func, wait, key) {
     debounceMap.set(key, timeout);
 }
 
-// Enhanced showNotification function
-function showNotificationEnhanced(message, type = 'info', duration = 3000) {
+// Enhanced showNotification function with glassmorphic design
+function showNotificationEnhanced(message, type = 'info', duration = 4000) {
     notificationManager.show(message, type, duration);
 }
 

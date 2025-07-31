@@ -173,81 +173,86 @@
     <!-- About Section -->
     <section id="about" class="py-20 bg-white dark:bg-slate-800">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div>
-                    <h2 class="text-4xl font-bold mb-6 text-gray-900 dark:text-white">Meet the Developer</h2>
-                    <div class="space-y-4 text-gray-600 dark:text-gray-300">
-                        <p>
-                            I'm <span class="text-purple-600 dark:text-purple-400 font-semibold">Ransford</span>, 
-                            a passionate Computer Science student from Ghana, driven by the belief 
-                            that education should be both <span class="text-blue-600 dark:text-blue-400 font-semibold">intelligent</span> 
-                            and <span class="text-purple-600 dark:text-purple-400 font-semibold">accessible</span> to everyone.
-                        </p>
-                        
-                        <p>
-                            While many educational tools exist, I envisioned something different. SmartStudy isn't just 
-                            another app that answers questions—it's an AI companion that truly understands students, 
-                            their unique pace, challenges, and learning aspirations.
-                        </p>
-                        
-                        <p>
-                            Every feature you interact with has been meticulously crafted to feel personal, lightning-fast, 
-                            and genuinely empowering. My goal is simple: help you learn better, deeper, and 
-                            smarter than ever before.
-                        </p>
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4 text-gray-900 dark:text-white">Meet the Developer</h2>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <!-- Developer Card -->
+                <div class="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-slate-800 dark:to-purple-900/30 rounded-3xl p-8 border border-gray-200 dark:border-slate-700 shadow-lg">
+                    <!-- Header with name and badges -->
+                    <div class="text-center mb-6">
+                        <h3 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Ransford Awuah-Tabiri</h3>
+                        <div class="flex justify-center space-x-4 mb-6">
+                            <span class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-full text-sm font-semibold shadow-md">
+                                <i class="fas fa-code mr-2"></i>
+                                Full-Stack Developer
+                            </span>
+                            <span class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-full text-sm font-semibold shadow-md">
+                                <i class="fas fa-map-marker-alt mr-2"></i>
+                                Ghana
+                            </span>
+                        </div>
                     </div>
 
-                    <blockquote class="mt-8 p-6 bg-gray-50 dark:bg-slate-700/50 rounded-lg border-l-4 border-purple-600">
-                        <p class="italic text-gray-700 dark:text-gray-300">
-                            "The future belongs to those who believe in the beauty of their dreams."
-                        </p>
-                        <cite class="text-sm text-gray-500 dark:text-gray-400 mt-2 block">- Eleanor Roosevelt</cite>
-                    </blockquote>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                        <!-- Profile Image with decorative elements -->
+                        <div class="lg:col-span-1 flex justify-center">
+                            <div class="relative">
+                                <!-- Main profile image -->
+                                <div class="w-64 h-64 rounded-3xl overflow-hidden border-4 border-white dark:border-slate-600 shadow-2xl bg-gradient-to-br from-blue-400 to-purple-600 p-1">
+                                    <div class="w-full h-full rounded-2xl overflow-hidden">
+                                        <img src="{{ url_for('static', filename='developer.jpg') }}" 
+                                             alt="Ransford Awuah-Tabiri - Developer" 
+                                             class="w-full h-full object-cover object-center"
+                                             loading="lazy">
+                                    </div>
+                                </div>
+                                
+                                <!-- Decorative badges -->
+                                <div class="absolute -top-3 -right-3 w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg border-2 border-white dark:border-slate-800">
+                                    <i class="fas fa-code text-white text-sm"></i>
+                                </div>
+                                
+                                <div class="absolute -bottom-3 -left-3 w-10 h-10 bg-gradient-to-r from-green-500 to-teal-500 rounded-full flex items-center justify-center shadow-lg border-2 border-white dark:border-slate-800">
+                                    <i class="fas fa-graduation-cap text-white text-xs"></i>
+                                </div>
+                                
+                                <!-- Online status indicator -->
+                                <div class="absolute top-4 right-4 w-4 h-4 bg-green-400 rounded-full border-2 border-white dark:border-slate-800 animate-pulse"></div>
+                            </div>
+                        </div>
 
-                    <div class="flex space-x-4 mt-8">
-                        <div class="flex items-center space-x-2 text-gray-600 dark:text-gray-300">
-                            <i class="fas fa-map-marker-alt text-purple-600"></i>
-                            <span>Ghana</span>
-                        </div>
-                        <div class="flex items-center space-x-2 text-gray-600 dark:text-gray-300">
-                            <i class="fas fa-graduation-cap text-purple-600"></i>
-                            <span>Computer Science Student</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="flex justify-center">
-                    <div class="relative">
-                        <div class="w-80 h-80 rounded-2xl overflow-hidden shadow-2xl border-4 border-purple-500/20">
-                            <img src="{{ url_for('static', filename='developer.jpg') }}" 
-                                 alt="Ransford - Developer" 
-                                 class="w-full h-full object-cover object-center"
-                                 loading="lazy"
-                                 style="object-position: center;">
-                        </div>
-                        <div class="absolute -bottom-4 -right-4 w-16 h-16 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
-                            <i class="fas fa-code text-white text-xl"></i>
-                        </div>
-                        <div class="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center shadow-lg">
-                            <i class="fas fa-star text-white text-sm"></i>
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-3 gap-4 mt-8">
-                        <div class="text-center p-4 bg-gray-50 dark:bg-slate-700/50 rounded-lg">
-                            <i class="fas fa-heart text-red-400 text-xl mb-2"></i>
-                            <p class="text-sm font-medium text-gray-900 dark:text-white">Passion</p>
-                            <p class="text-xs text-gray-600 dark:text-gray-300">for Education</p>
-                        </div>
-                        <div class="text-center p-4 bg-gray-50 dark:bg-slate-700/50 rounded-lg">
-                            <i class="fas fa-lightbulb text-yellow-400 text-xl mb-2"></i>
-                            <p class="text-sm font-medium text-gray-900 dark:text-white">Innovation</p>
-                            <p class="text-xs text-gray-600 dark:text-gray-300">in Learning</p>
-                        </div>
-                        <div class="text-center p-4 bg-gray-50 dark:bg-slate-700/50 rounded-lg">
-                            <i class="fas fa-globe text-green-400 text-xl mb-2"></i>
-                            <p class="text-sm font-medium text-gray-900 dark:text-white">Global</p>
-                            <p class="text-xs text-gray-600 dark:text-gray-300">Impact</p>
+                        <!-- Content -->
+                        <div class="lg:col-span-2 space-y-6">
+                            <div class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                                <p class="mb-4">
+                                    I'm a passionate Computer Science student from Ghana, driven by the belief 
+                                    that education should be both <span class="text-blue-600 dark:text-blue-400 font-semibold">intelligent</span> 
+                                    and <span class="text-purple-600 dark:text-purple-400 font-semibold">accessible</span> to everyone.
+                                </p>
+                                
+                                <p class="mb-4">
+                                    While many educational tools exist, I envisioned something different. SmartStudy isn't just 
+                                    another app that answers questions—it's an AI companion that truly understands students, 
+                                    their unique pace, challenges, and learning aspirations.
+                                </p>
+                                
+                                <p>
+                                    Every feature you interact with has been meticulously crafted to feel personal, lightning-fast, 
+                                    and genuinely empowering. My goal is simple: help you learn better, deeper, and 
+                                    smarter than ever before.
+                                </p>
+                            </div>
+
+                            <!-- Quote section -->
+                            <div class="bg-white/50 dark:bg-slate-700/30 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 dark:border-slate-600/50">
+                                <blockquote class="text-center">
+                                    <p class="text-lg italic text-blue-600 dark:text-blue-400 font-medium mb-2">
+                                        "SmartStudy: Your Brain, Upgraded."
+                                    </p>
+                                </blockquote>
+                            </div>
                         </div>
                     </div>
                 </div>

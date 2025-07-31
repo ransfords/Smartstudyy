@@ -71,11 +71,17 @@ def summarizer():
         file = request.files.get('file')
 
         # Handle file upload
-        if file and file.filename.endswith('.txt'):
+        if file and file.filename and file.filename.endswith('.txt'):
             try:
-                text = file.read().decode('utf-8')
+                file_content = file.read()
+                if isinstance(file_content, bytes):
+                    text = file_content.decode('utf-8')
+                else:
+                    text = file_content
+            except UnicodeDecodeError:
+                return jsonify({'error': 'Unable to decode file. Please ensure it is a valid UTF-8 text file.'}), 400
             except Exception as e:
-                return jsonify({'error': 'Error reading file'}), 400
+                return jsonify({'error': f'Error reading file: {str(e)}'}), 400
 
         if text:
             try:

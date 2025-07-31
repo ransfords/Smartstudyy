@@ -1,94 +1,6 @@
-` tags.
+` tags. I will ensure that the indentation, structure, and functionality are preserved, and all necessary changes are applied without skipping any parts. I will also avoid using any forbidden words.
 
-```html
-{% extends "base.html" %}
-
-{% block title %}Interactive Quiz - SmartStudy{% endblock %}
-
-{% block content %}
-<div class="bg-white dark:bg-slate-900 text-gray-900 dark:text-white transition-colors duration-300">
-    <!-- Sidebar Navigation -->
-    <div class="fixed left-0 top-0 h-full w-64 bg-white dark:bg-slate-800 border-r border-gray-200 dark:border-slate-700 transition-colors duration-300">
-        <div class="p-6">
-            <div class="flex items-center space-x-3 mb-8">
-                <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-brain text-white text-sm"></i>
-                </div>
-                <span class="text-xl font-bold">SmartStudy</span>
-            </div>
-
-            <nav class="space-y-2">
-                <a href="{{ url_for('dashboard') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors">
-                    <i class="fas fa-home"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="{{ url_for('assistant') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors">
-                    <i class="fas fa-robot"></i>
-                    <span>AI Assistant</span>
-                </a>
-                <a href="{{ url_for('summarizer') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors">
-                    <i class="fas fa-file-text"></i>
-                    <span>Summarizer</span>
-                </a>
-                <a href="{{ url_for('flashcards') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors">
-                    <i class="fas fa-cards-blank"></i>
-                    <span>Flashcards</span>
-                </a>
-                <a href="{{ url_for('quiz') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg bg-purple-600 text-white">
-                    <i class="fas fa-question-circle"></i>
-                    <span>Quiz</span>
-                </a>
-                <a href="{{ url_for('progress') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Progress</span>
-                </a>
-                <a href="{{ url_for('history') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors">
-                    <i class="fas fa-history"></i>
-                    <span>History</span>
-                </a>
-            </nav>
-        </div>
-    </div>
-
-    <!-- Top Header -->
-    <div class="fixed top-0 right-0 left-64 h-16 bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 flex items-center justify-end px-6 z-10 transition-colors duration-300">
-        <div class="flex items-center space-x-4">
-            <!-- Theme Toggle -->
-            <button id="theme-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors">
-                <i class="fas fa-sun dark:hidden"></i>
-                <i class="fas fa-moon hidden dark:block"></i>
-            </button>
-
-            <a href="{{ url_for('logout') }}" class="text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 font-medium transition-colors">
-                <i class="fas fa-sign-out-alt mr-2"></i>Logout
-            </a>
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="ml-64 pt-16">
-        <div class="p-6 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-slate-900 dark:via-purple-900 dark:to-slate-900 min-h-screen transition-colors duration-300">
-            <div class="max-w-4xl mx-auto">
-                <!-- Header -->
-                <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 mb-8 border border-gray-200 dark:border-slate-700 transition-colors duration-300">
-                    <div class="flex items-center space-x-3 mb-4">
-                        <div class="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-question-circle text-white text-xl"></i>
-                        </div>
-                        <div>
-                            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Interactive Quiz</h1>
-                            <p class="text-gray-600 dark:text-gray-300">Test your knowledge with AI-generated quizzes</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Content will be added here -->
-            </div>
-        </div>
-    </div>
-</div>
-{% endblock %}
-```<replit_final_file>
+```
 {% extends "base.html" %}
 
 {% block title %}Interactive Quiz - SmartStudy{% endblock %}
@@ -178,7 +90,7 @@
                             <i class="fas fa-play-circle text-green-400 mr-2"></i>
                             Start a New Quiz
                         </h2>
-            
+
                         <form method="POST" action="{{ url_for('generate_quiz') }}">
                             <div class="space-y-4">
                                 <div>
@@ -189,7 +101,7 @@
                                         <option value="programming">Programming</option>
                                     </select>
                                 </div>
-                    
+
                                 <div>
                                     <label class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Difficulty Level</label>
                                     <select name="difficulty" class="w-full p-3 bg-gray-100 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 dark:text-gray-300">
@@ -197,7 +109,7 @@
                                         <option value="medium">Medium</option>
                                     </select>
                                 </div>
-                    
+
                                 <button type="submit" 
                                         class="w-full bg-purple-600 hover:bg-purple-700 p-3 rounded-lg font-medium transition-colors flex items-center justify-center text-white">
                                     <i class="fas fa-rocket mr-2"></i>
@@ -218,7 +130,7 @@
                             <span class="bg-blue-600 text-white px-3 py-1 rounded-full text-sm">{{ quiz.questions|length }} Questions</span>
                         </div>
                     </div>
-        
+
                     <form method="POST" action="{{ url_for('submit_quiz') }}">
                         <div class="space-y-6">
                             {% for i, question in quiz.questions|enumerate %}
@@ -226,7 +138,7 @@
                                 <h3 class="text-lg font-medium mb-4 text-gray-900 dark:text-white">
                                     Question {{ i + 1 }}: {{ question.question }}
                                 </h3>
-                    
+
                                 <div class="space-y-3">
                                     {% for j, option in question.options|enumerate %}
                                     <label class="flex items-center p-3 bg-gray-100 dark:bg-slate-700 rounded-lg hover:bg-gray-200 dark:hover:bg-slate-600 cursor-pointer transition-colors">
@@ -237,7 +149,7 @@
                                 </div>
                             </div>
                             {% endfor %}
-            
+
                             <div class="text-center">
                                 <button type="submit" 
                                         class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-medium transition-colors">
@@ -265,7 +177,7 @@
                             <p class="text-lg text-gray-600 dark:text-gray-300">
                                 You scored {{ results.score }} out of {{ results.total }} questions correctly
                             </p>
-                
+
                             {% if results.percentage >= 80 %}
                             <div class="mt-4 p-3 bg-green-100 dark:bg-green-900 border border-green-200 dark:border-green-700 rounded-lg">
                                 <i class="fas fa-trophy text-yellow-400 mr-2"></i>
@@ -292,14 +204,14 @@
                             <h3 class="text-lg font-medium mb-4 text-gray-900 dark:text-white">
                                 Question {{ i + 1 }}: {{ question.question }}
                             </h3>
-                
+
                             <div class="space-y-3 mb-4">
                                 {% for j, option in question.options|enumerate %}
                                 <div class="flex items-center p-3 rounded-lg
                                     {% if j == question.correct %}bg-green-100 dark:bg-green-900 border border-green-200 dark:border-green-700
                                     {% elif j == results.answers[i].user_answer and j != question.correct %}bg-red-100 dark:bg-red-900 border border-red-200 dark:border-red-700
                                     {% else %}bg-gray-100 dark:bg-slate-700{% endif %} transition-colors duration-300">
-                    
+
                                     <div class="mr-3">
                                         {% if j == question.correct %}
                                         <i class="fas fa-check text-green-400"></i>
@@ -309,16 +221,16 @@
                                         <i class="fas fa-circle text-gray-500 text-xs"></i>
                                         {% endif %}
                                     </div>
-                    
+
                                     <span class="text-gray-900 dark:text-gray-300">{{ option }}</span>
-                    
+
                                     {% if j == results.answers[i].user_answer %}
                                     <span class="ml-auto text-sm text-gray-500 dark:text-gray-400">(Your answer)</span>
                                     {% endif %}
                                 </div>
                                 {% endfor %}
                             </div>
-                
+
                             <div class="bg-blue-100 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg p-3">
                                 <strong class="text-blue-600 dark:text-blue-300">Explanation:</strong>
                                 <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">{{ question.explanation }}</p>
@@ -326,7 +238,7 @@
                         </div>
                         {% endfor %}
                     </div>
-        
+
                     <div class="text-center mt-8">
                         <a href="{{ url_for('quiz') }}" 
                            class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-medium transition-colors inline-block">
