@@ -264,7 +264,7 @@ class AIProcessor:
             'labels': labels,
             'data': data,
             'total_activities': total
-        } list(reversed(activities))
+        }
 
     def generate_quiz(self, topic: str, difficulty: str = "medium") -> dict:
         """Generate a comprehensive quiz based on topic and difficulty"""
