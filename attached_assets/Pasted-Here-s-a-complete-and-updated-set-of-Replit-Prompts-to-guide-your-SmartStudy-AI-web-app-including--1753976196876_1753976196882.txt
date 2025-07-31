@@ -1,0 +1,109 @@
+Here’s a complete and updated set of Replit Prompts to guide your SmartStudy AI web app, including:
+
+✅ Local AI-based Summarizer (no API key)
+
+✅ Local AI Assistant (no external API)
+
+✅ Real-time quote system
+
+✅ Flashcard & quiz generator
+
+✅ History tracking
+
+✅ Modern UI structure
+
+🧠 Replit Assistant Prompt for SmartStudy Project
+Prompt Title: Build a SmartStudy AI App (Summarizer + Assistant + EdTech Features)
+
+Prompt:
+
+I want to build a modern educational web app called SmartStudy.
+
+It must include the following:
+
+🌟 1. Landing Page
+Show the app name "SmartStudy"
+
+Include a slogan: “Study Smarter, Not Harder”
+
+Display rotating, real-time educational quotes like:
+
+“Education is not the learning of facts, but the training of the mind to think. – Einstein”
+
+“The beautiful thing about learning is that nobody can take it away from you. – B.B. King”
+
+“Your education is a dress rehearsal for a life that is yours to lead. – Nora Ephron”
+
+Clean, modern design using Tailwind CSS
+
+Include navigation to:
+
+Summarizer
+
+AI Assistant
+
+Quiz & Flashcards
+
+Recent History
+
+🧾 2. Note Summarizer (No API Key)
+Users paste or type large text notes
+
+A button will summarize the notes directly using a JavaScript or Python-based summarization algorithm (not external API)
+
+Display summary in a styled section
+
+Include option to copy/download
+
+🤖 3. AI Assistant (No API Key)
+Provide a chatbot that answers study-related questions
+
+Trained on a local set of common Q&A (you can use a JSON or mini dataset)
+
+Supports subjects like Science, Math, Programming, English
+
+Suggests helpful links and responses
+
+Shows typing animation or message delay
+
+🧠 4. Flashcard & Quiz Generator
+Generate flashcards and multiple-choice quiz questions based on user's input text or summary
+
+Flashcards flip on click
+
+Quiz questions have radio buttons or checkboxes with scoring
+
+No API required – use internal logic to pick keywords and frame questions
+
+📜 5. Activity History
+Show recent summaries, quizzes, and assistant chats in a history panel
+
+Save using local storage or Replit DB
+
+Allow user to clear or revisit entries
+
+🧰 Stack & Deployment
+Frontend: HTML + Tailwind CSS + JavaScript
+
+Backend: Python Flask (optional if you want to store/retrieve data)
+
+No API keys or external AI services used
+
+Should be deployable to GitHub and Render (for dynamic version)
+
+📁 Project Structure
+index.html → Landing page with quote rotator
+
+summarizer.html → Summarizer UI
+
+assistant.html → AI Assistant chat interface
+
+quiz.html → Flashcard + quiz area
+
+history.html → Shows stored data
+
+scripts/ → JavaScript files for each feature
+
+styles/ → Tailwind or custom CSS
+
+main.py → Optional Flask backend

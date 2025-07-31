@@ -1,0 +1,58 @@
+ **Dashboard**
+   - Main interface for AI learning tools.
+   - Left sidebar or top navigation with options:
+     - Summarize Notes
+     - Generate Quizzes
+     - Create Flashcards
+     - Activity History
+     - Learn Page
+
+4. **AI Note Summarizer**
+   - Users paste large text/notes or upload a `.txt` or `.docx` file.
+   - Summarize into concise points using a function like `summarize_text(text)` (simulate OpenAI summarizer).
+   - Display summarized results in an elegant UI card.
+
+5. **Quiz Generator**
+   - Use the AI-generated summaries to automatically generate 3–5 multiple-choice questions.
+   - Output should include:
+     - Questions
+     - Four options (A–D)
+     - Highlight the correct answer
+   - Use a function like `generate_quiz(summary_text)`.
+
+6. **Flashcard Creator**
+   - From the same summary, generate flashcards in Q&A format.
+   - Display as flip cards with JavaScript or a scrollable deck.
+   - Each card should have front (question/concept) and back (answer/definition).
+
+7. **Real-Time Activity History**
+   - Log all recent user activities:
+     - Summaries created
+     - Quizzes taken
+     - Flashcards reviewed
+   - Display this on the dashboard as a scrollable list (timeline or table format).
+   - For now, store in localStorage or mock JSON.
+
+8. **Learning Page**
+   - Add a page to switch between:
+     - Forex Topics
+     - Stock Market Topics
+   - Each topic displays learning cards with AI-generated micro-summaries.
+   - Simulate AI summary for each topic.
+
+### Technical Requirements:
+- Use Flask for backend and routing.
+- Use HTML + Tailwind CSS for frontend.
+- Use vanilla JS or Fetch API to communicate with Flask endpoints.
+- Place everything in a centralized `index.html`, `script.js`, `style.css`, and `main.py`.
+- Provide modular functions in `main.py` like:
+  - `summarize_text(text)`
+  - `generate_quiz(summary)`
+  - `generate_flashcards(summary)`
+  - `get_quotes()`
+
+### Bonus:
+- Quotes rotate every 15 seconds on landing page.
+- Use soft animations, framer motion–like feel via Tailwind and JS.
+- Clean sidebar UI or topbar layout.
+
