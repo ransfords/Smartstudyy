@@ -1,2 +1,39 @@
 
-data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjMyMCIgdmlld0JveD0iMCAwIDMyMCAzMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojOGI1Y2Y2O3N0b3Atb3BhY2l0eToxIiAvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzMlODJmNjtzdG9wLW9wYWNpdHk6MSIgLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjMyMCIgZmlsbD0idXJsKCNncmFkKSIgcng9IjE2Ii8+PGNpcmNsZSBjeD0iMTYwIiBjeT0iMTIwIiByPSI0MCIgZmlsbD0id2hpdGUiLz48cGF0aCBkPSJtMTAwIDIyMCBjMC0zMyAyNy02MCA2MC02MHM2MCAyNyA2MCA2MCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIxMCIgZmlsbD0ibm9uZSIvPjx0ZXh0IHg9IjE2MCIgeT0iMjcwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iYm9sZCI+UmFuc2ZvcmQ8L3RleHQ+PC9zdmc+
+<svg width="320" height="320" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+<stop offset="50%" style="stop-color:#8b5cf6;stop-opacity:1" />
+<stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+</linearGradient>
+<linearGradient id="face" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" style="stop-color:#fbbf24;stop-opacity:1" />
+<stop offset="100%" style="stop-color:#f59e0b;stop-opacity:1" />
+</linearGradient>
+</defs>
+<rect width="320" height="320" fill="url(#grad)" rx="24"/>
+
+<!-- Professional avatar -->
+<circle cx="160" cy="130" r="50" fill="url(#face)"/>
+<circle cx="145" cy="120" r="4" fill="#374151"/>
+<circle cx="175" cy="120" r="4" fill="#374151"/>
+<path d="m140 140 c0-11 9-20 20-20s20 9 20 20" stroke="#374151" stroke-width="2" fill="none"/>
+
+<!-- Body/Shirt -->
+<path d="m90 240 c0-40 32-70 70-70s70 30 70 70 v60 h-140 z" fill="#1f2937"/>
+<path d="m90 240 c0-40 32-70 70-70s70 30 70 70" stroke="#374151" stroke-width="3" fill="none"/>
+
+<!-- Tie -->
+<rect x="152" y="200" width="16" height="60" fill="#ef4444"/>
+<polygon points="152,200 168,200 164,180 156,180" fill="#dc2626"/>
+
+<!-- Code symbols floating around -->
+<text x="50" y="80" fill="rgba(255,255,255,0.3)" font-family="monospace" font-size="16" font-weight="bold">&lt;/&gt;</text>
+<text x="240" y="100" fill="rgba(255,255,255,0.3)" font-family="monospace" font-size="14" font-weight="bold">{}</text>
+<text x="60" y="280" fill="rgba(255,255,255,0.3)" font-family="monospace" font-size="12" font-weight="bold">AI</text>
+<text x="250" y="270" fill="rgba(255,255,255,0.3)" font-family="monospace" font-size="12" font-weight="bold">def</text>
+
+<!-- Name -->
+<text x="160" y="300" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">Ransford A-T</text>
+<text x="160" y="315" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="Arial, sans-serif" font-size="12">Full-Stack Developer</text>
+</svg>
