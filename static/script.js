@@ -12,13 +12,11 @@ let isProcessing = false;
 const debounceMap = new Map();
 const memoCache = new Map();
 
-// Initialize app
-document.addEventListener('DOMContentLoaded', function() {
-    initializeApp();
-});
+// Initialize app immediately
+initializeApp();
 
 function initializeApp() {
-    // Load theme
+    // Load theme first
     loadTheme();
     
     // Initialize theme toggle
@@ -38,34 +36,74 @@ function initializeApp() {
     
     // Initialize search if available
     setupSearch();
+    
+    // Preload critical resources
+    preloadCriticalResources();
 }
 
-// Theme management
+// Preload critical resources for better performance
+function preloadCriticalResources() {
+    // Preload commonly used icons and images
+    const criticalResources = [
+        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/webfonts/fa-solid-900.woff2'
+    ];
+    
+    criticalResources.forEach(url => {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.href = url;
+        link.as = 'font';
+        link.type = 'font/woff2';
+        link.crossOrigin = 'anonymous';
+        document.head.appendChild(link);
+    });
+}
+
+// Theme management - Enhanced with immediate application
 function loadTheme() {
     const theme = localStorage.getItem('smartstudy_theme') || 'dark';
+    
+    // Apply theme immediately to prevent flash
     document.documentElement.setAttribute('data-theme', theme);
-    document.documentElement.className = theme === 'dark' ? 'dark' : '';
+    if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+    
     currentTheme = theme;
-    updateThemeToggleIcon();
+    
+    // Update theme toggle icon after DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', updateThemeToggleIcon);
+    } else {
+        updateThemeToggleIcon();
+    }
 }
 
 function toggleTheme() {
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
     currentTheme = newTheme;
     
-    document.documentElement.setAttribute('data-theme', newTheme);
-    document.documentElement.className = newTheme === 'dark' ? 'dark' : '';
-    
-    localStorage.setItem('smartstudy_theme', newTheme);
-    updateThemeToggleIcon();
-    
-    // Add a smooth transition effect
-    document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
-    setTimeout(() => {
-        document.body.style.transition = '';
-    }, 300);
-    
-    logActivity('theme_change', `Switched to ${newTheme} mode`);
+    // Use requestAnimationFrame for smoother transitions
+    requestAnimationFrame(() => {
+        document.documentElement.setAttribute('data-theme', newTheme);
+        if (newTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        
+        localStorage.setItem('smartstudy_theme', newTheme);
+        updateThemeToggleIcon();
+        
+        logActivity('theme_change', `Switched to ${newTheme} mode`);
+        
+        // Show notification
+        if (window.SmartStudy && window.SmartStudy.showNotification) {
+            window.SmartStudy.showNotification(`Switched to ${newTheme} mode`, 'success', 2000);
+        }
+    });
 }
 
 function updateThemeToggleIcon() {

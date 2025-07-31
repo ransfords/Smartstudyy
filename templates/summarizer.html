@@ -1,182 +1,267 @@
 {% extends "base.html" %}
 
-{% block title %}AI Note Summarizer - SmartStudy{% endblock %}
+{% block title %}Text Summarizer - SmartStudy{% endblock %}
 
 {% block content %}
-<!-- Sidebar Navigation -->
-<div class="fixed left-0 top-0 h-full w-64 bg-slate-800 border-r border-slate-700">
-    <div class="p-6">
-        <div class="flex items-center space-x-3 mb-8">
-            <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
-                <i class="fas fa-brain text-white text-sm"></i>
+<div class="bg-white dark:bg-slate-900 text-gray-900 dark:text-white transition-colors duration-300">
+    <!-- Sidebar Navigation -->
+    <div class="fixed left-0 top-0 h-full w-64 bg-white dark:bg-slate-800 border-r border-gray-200 dark:border-slate-700 transition-colors duration-300">
+        <div class="p-6">
+            <div class="flex items-center space-x-3 mb-8">
+                <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-brain text-white text-sm"></i>
+                </div>
+                <span class="text-xl font-bold">SmartStudy</span>
             </div>
-            <span class="text-xl font-bold">SmartStudy</span>
-        </div>
-        
-        <nav class="space-y-2">
-            <a href="{{ url_for('dashboard') }}" class="nav-link flex items-center space-x-3 p-3 rounded-lg transition-colors hover:bg-slate-700">
-                <i class="fas fa-home text-lg"></i>
-                <span>Overview</span>
-            </a>
-            <a href="{{ url_for('assistant') }}" class="nav-link flex items-center space-x-3 p-3 rounded-lg transition-colors hover:bg-slate-700">
-                <i class="fas fa-robot text-lg"></i>
-                <span>AI Assistant</span>
-            </a>
-            <a href="{{ url_for('summarizer') }}" class="nav-link flex items-center space-x-3 p-3 rounded-lg transition-colors bg-blue-600">
-                <i class="fas fa-file-text text-lg"></i>
-                <span>Summarize Notes</span>
-            </a>
-            <a href="{{ url_for('flashcards') }}" class="nav-link flex items-center space-x-3 p-3 rounded-lg transition-colors hover:bg-slate-700">
-                <i class="fas fa-layer-group text-lg"></i>
-                <span>Create Flashcards</span>
-            </a>
-            <a href="{{ url_for('quiz') }}" class="nav-link flex items-center space-x-3 p-3 rounded-lg transition-colors hover:bg-slate-700">
-                <i class="fas fa-question-circle text-lg"></i>
-                <span>Interactive Quiz</span>
-            </a>
-            <a href="{{ url_for('progress') }}" class="nav-link flex items-center space-x-3 p-3 rounded-lg transition-colors hover:bg-slate-700">
-                <i class="fas fa-chart-line text-lg"></i>
-                <span>Progress Tracker</span>
-            </a>
-            <a href="{{ url_for('history') }}" class="nav-link flex items-center space-x-3 p-3 rounded-lg transition-colors hover:bg-slate-700">
-                <i class="fas fa-history text-lg"></i>
-                <span>Recent History</span>
-            </a>
-        </nav>
-    </div>
-</div>
 
-<!-- Main Content -->
-<div class="ml-64 pt-4">
-<div class="p-6 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 min-h-screen">
-    <!-- Header -->
-    <div class="mb-6">
-        <div class="flex items-center justify-between">
-            <h1 class="text-2xl font-bold">AI Note Summarizer</h1>
-            <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                <i class="fas fa-upload mr-2"></i>
-                Upload .txt file
+            <nav class="space-y-2">
+                <a href="{{ url_for('dashboard') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="{{ url_for('assistant') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors">
+                    <i class="fas fa-robot"></i>
+                    <span>AI Assistant</span>
+                </a>
+                <a href="{{ url_for('summarizer') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg bg-purple-600 text-white">
+                    <i class="fas fa-file-text"></i>
+                    <span>Summarizer</span>
+                </a>
+                <a href="{{ url_for('flashcards') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors">
+                    <i class="fas fa-cards-blank"></i>
+                    <span>Flashcards</span>
+                </a>
+                <a href="{{ url_for('quiz') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Quiz</span>
+                </a>
+                <a href="{{ url_for('progress') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Progress</span>
+                </a>
+                <a href="{{ url_for('history') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors">
+                    <i class="fas fa-history"></i>
+                    <span>History</span>
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Top Header -->
+    <div class="fixed top-0 right-0 left-64 h-16 bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 flex items-center justify-end px-6 z-10 transition-colors duration-300">
+        <div class="flex items-center space-x-4">
+            <!-- Theme Toggle -->
+            <button id="theme-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors">
+                <i class="fas fa-sun dark:hidden"></i>
+                <i class="fas fa-moon hidden dark:block"></i>
             </button>
+
+            <a href="{{ url_for('logout') }}" class="text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 font-medium transition-colors">
+                <i class="fas fa-sign-out-alt mr-2"></i>Logout
+            </a>
         </div>
     </div>
 
     <!-- Main Content -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Input Panel -->
-        <div class="bg-slate-800 rounded-xl border border-slate-700">
-            <div class="p-4 border-b border-slate-700">
-                <h2 class="text-lg font-semibold">Input Text</h2>
-            </div>
-            <div class="p-4">
-                <form method="POST" action="{{ url_for('process_summary') }}">
-                    <textarea name="text" 
-                              placeholder="Paste your notes here or upload a .txt file..."
-                              class="w-full h-96 bg-slate-900 border border-slate-600 rounded-lg p-4 text-sm resize-none focus:outline-none focus:border-blue-500"
-                              required>{{ text if text else '' }}</textarea>
-                    
-                    <div class="mt-4 flex justify-end">
-                        <button type="submit" 
-                                class="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-lg font-medium transition-colors flex items-center space-x-2">
-                            <i class="fas fa-magic"></i>
-                            <span>Generate AI Summary</span>
-                        </button>
+    <div class="ml-64 pt-16">
+        <div class="p-6 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-slate-900 dark:via-purple-900 dark:to-slate-900 min-h-screen transition-colors duration-300">
+            <div class="max-w-4xl mx-auto">
+                <!-- Header -->
+                <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 mb-8 border border-gray-200 dark:border-slate-700 transition-colors duration-300">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-file-text text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Text Summarizer</h1>
+                            <p class="text-gray-600 dark:text-gray-300">Transform lengthy texts into concise summaries</p>
+                        </div>
                     </div>
-                </form>
-            </div>
-        </div>
+                </div>
 
-        <!-- Output Panel -->
-        <div class="bg-slate-800 rounded-xl border border-slate-700">
-            <div class="p-4 border-b border-slate-700">
-                <h2 class="text-lg font-semibold">AI Summary</h2>
-            </div>
-            <div class="p-4">
-                {% if summary %}
-                <div class="bg-slate-900 border border-slate-600 rounded-lg p-4 h-96 overflow-y-auto">
-                    <p class="text-sm leading-relaxed">{{ summary }}</p>
+                <!-- Input Section -->
+                <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 mb-8 border border-gray-200 dark:border-slate-700 transition-colors duration-300">
+                    <form id="summarizer-form" method="POST" enctype="multipart/form-data" class="space-y-6">
+                        <!-- File Upload -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Upload Text File
+                            </label>
+                            <div class="flex items-center justify-center w-full">
+                                <label for="file-upload" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 dark:border-slate-600 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-slate-700 hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors">
+                                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                        <i class="fas fa-cloud-upload-alt text-gray-400 text-2xl mb-2"></i>
+                                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                            <span class="font-semibold">Click to upload</span> or drag and drop
+                                        </p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400">TXT files only</p>
+                                    </div>
+                                    <input id="file-upload" name="file" type="file" accept=".txt" class="hidden" onchange="handleFileUpload(this)">
+                                </label>
+                            </div>
+                            <div id="file-info" class="mt-2 text-sm text-gray-600 dark:text-gray-400 hidden"></div>
+                        </div>
+
+                        <div class="text-center text-gray-500 dark:text-gray-400">or</div>
+
+                        <!-- Text Input -->
+                        <div>
+                            <label for="text-input" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Paste Your Text
+                            </label>
+                            <textarea 
+                                id="text-input" 
+                                name="text" 
+                                rows="10" 
+                                class="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors resize-none"
+                                placeholder="Enter the text you want to summarize here..."
+                            ></textarea>
+                        </div>
+
+                        <!-- Options -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="summary-length" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Summary Length
+                                </label>
+                                <select id="summary-length" name="length" class="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors">
+                                    <option value="short">Short (2-3 sentences)</option>
+                                    <option value="medium" selected>Medium (1 paragraph)</option>
+                                    <option value="long">Long (2-3 paragraphs)</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="summary-style" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Summary Style
+                                </label>
+                                <select id="summary-style" name="style" class="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors">
+                                    <option value="general" selected>General Summary</option>
+                                    <option value="bullet">Bullet Points</option>
+                                    <option value="academic">Academic Style</option>
+                                    <option value="simple">Simple Language</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button 
+                            type="submit" 
+                            id="summarize-btn"
+                            class="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-4 px-6 rounded-lg transition-colors flex items-center justify-center space-x-2"
+                        >
+                            <i class="fas fa-magic"></i>
+                            <span>Generate Summary</span>
+                        </button>
+                    </form>
                 </div>
-                
-                <div class="mt-4 flex space-x-3">
-                    <button onclick="copyToClipboard()" 
-                            class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2">
-                        <i class="fas fa-copy"></i>
-                        <span>Copy</span>
-                    </button>
-                    
-                    <button onclick="downloadSummary()" 
-                            class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2">
-                        <i class="fas fa-download"></i>
-                        <span>Download</span>
-                    </button>
-                    
-                    <button onclick="generateFlashcards()" 
-                            class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2">
-                        <i class="fas fa-layer-group"></i>
-                        <span>Make Flashcards</span>
-                    </button>
-                </div>
-                {% elif error %}
-                <div class="bg-red-500/10 border border-red-500/20 rounded-lg p-4 h-96 flex items-center justify-center">
-                    <div class="text-center">
-                        <i class="fas fa-exclamation-triangle text-red-400 text-2xl mb-2"></i>
-                        <p class="text-red-400">{{ error }}</p>
+
+                <!-- Output Section -->
+                <div id="output-section" class="bg-white dark:bg-slate-800 rounded-2xl p-8 border border-gray-200 dark:border-slate-700 transition-colors duration-300 hidden">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold text-gray-900 dark:text-white">Summary</h2>
+                        <div class="flex space-x-2">
+                            <button onclick="copySummary()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+                                <i class="fas fa-copy mr-2"></i>Copy
+                            </button>
+                            <button onclick="downloadSummary()" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
+                                <i class="fas fa-download mr-2"></i>Download
+                            </button>
+                        </div>
                     </div>
+                    <div id="summary-output" class="prose dark:prose-invert max-w-none p-6 bg-gray-50 dark:bg-slate-700 rounded-lg border border-gray-200 dark:border-slate-600"></div>
                 </div>
-                {% else %}
-                <div class="bg-slate-900 border border-slate-600 rounded-lg p-4 h-96 flex items-center justify-center">
-                    <div class="text-center text-gray-500">
-                        <i class="fas fa-magic text-3xl mb-4"></i>
-                        <p>Your AI-generated summary will appear here</p>
-                    </div>
-                </div>
-                {% endif %}
             </div>
         </div>
     </div>
 </div>
 
 <script>
-function copyToClipboard() {
-    const summaryText = document.querySelector('.bg-slate-900 p').textContent;
+function handleFileUpload(input) {
+    const file = input.files[0];
+    const fileInfo = document.getElementById('file-info');
+
+    if (file) {
+        fileInfo.classList.remove('hidden');
+        fileInfo.innerHTML = `<i class="fas fa-file-text mr-2"></i>Selected: ${file.name} (${(file.size/1024).toFixed(1)} KB)`;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('text-input').value = e.target.result;
+        };
+        reader.readAsText(file);
+    } else {
+        fileInfo.classList.add('hidden');
+    }
+}
+
+document.getElementById('summarizer-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const btn = document.getElementById('summarize-btn');
+    const outputSection = document.getElementById('output-section');
+    const summaryOutput = document.getElementById('summary-output');
+
+    const formData = new FormData(this);
+
+    // Show loading state
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Generating Summary...';
+
+    try {
+        const response = await fetch('{{ url_for("summarizer") }}', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            summaryOutput.innerHTML = `<p class="text-gray-900 dark:text-white leading-relaxed">${result.summary}</p>`;
+            outputSection.classList.remove('hidden');
+            outputSection.scrollIntoView({ behavior: 'smooth' });
+
+            // Log activity
+            if (window.SmartStudy) {
+                window.SmartStudy.logActivity('summary_generated', 'Generated text summary');
+                window.SmartStudy.updateProgress('summaries');
+            }
+        } else {
+            throw new Error('Failed to generate summary');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        if (window.SmartStudy) {
+            window.SmartStudy.showNotification('Error generating summary. Please try again.', 'error');
+        }
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-magic mr-2"></i>Generate Summary';
+    }
+});
+
+function copySummary() {
+    const summaryText = document.getElementById('summary-output').textContent;
     navigator.clipboard.writeText(summaryText).then(() => {
-        // Show success feedback
-        const button = event.target.closest('button');
-        const originalText = button.innerHTML;
-        button.innerHTML = '<i class="fas fa-check"></i> <span>Copied!</span>';
-        setTimeout(() => {
-            button.innerHTML = originalText;
-        }, 2000);
+        if (window.SmartStudy) {
+            window.SmartStudy.showNotification('Summary copied to clipboard!', 'success');
+        }
     });
 }
 
 function downloadSummary() {
-    const summaryText = document.querySelector('.bg-slate-900 p').textContent;
+    const summaryText = document.getElementById('summary-output').textContent;
     const blob = new Blob([summaryText], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'ai-summary.txt';
+    a.download = 'summary.txt';
+    document.body.appendChild(a);
     a.click();
+    document.body.removeChild(a);
     URL.revokeObjectURL(url);
-}
 
-function generateFlashcards() {
-    const summaryText = document.querySelector('.bg-slate-900 p').textContent;
-    // Create a form and submit to flashcards page
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = '{{ url_for("generate_flashcards") }}';
-    
-    const input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = 'text';
-    input.value = summaryText;
-    
-    form.appendChild(input);
-    document.body.appendChild(form);
-    form.submit();
+    if (window.SmartStudy) {
+        window.SmartStudy.showNotification('Summary downloaded!', 'success');
+    }
 }
 </script>
-</div>
-</div>
-{% endblock %}

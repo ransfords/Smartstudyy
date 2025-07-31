@@ -7,7 +7,7 @@ from functools import lru_cache
 
 class AIProcessor:
     """Local AI processing for SmartStudy without external APIs"""
-    
+
     def __init__(self):
         self.processing_cache = {}
         self.response_times = []
@@ -23,7 +23,7 @@ class AIProcessor:
             "Education is what remains after one has forgotten what one has learned in school. – Einstein",
             "The capacity to learn is a gift; the ability to learn is a skill; the willingness to learn is a choice. – Brian Herbert"
         ]
-        
+
         self.quick_questions = [
             "Explain the concept of photosynthesis",
             "What is machine learning?",
@@ -38,7 +38,7 @@ class AIProcessor:
             "Explain the scientific method",
             "How does the human brain work?"
         ]
-        
+
         self.knowledge_base = {
             # Science
             "photosynthesis": "Photosynthesis is the process by which plants use sunlight, water, and carbon dioxide to create oxygen and energy in the form of sugar. It occurs in the chloroplasts of plant cells and involves two main stages: light-dependent reactions and the Calvin cycle.",
@@ -48,116 +48,86 @@ class AIProcessor:
             "chemical reactions": "Chemical reactions involve the breaking and forming of bonds between atoms to create new substances. They follow conservation laws and can be classified as synthesis, decomposition, single or double replacement reactions.",
             "scientific method": "The scientific method is a systematic approach to understanding the natural world through observation, hypothesis formation, experimentation, analysis, and conclusion. It ensures reliable and reproducible results.",
             "human brain": "The human brain contains approximately 86 billion neurons that communicate through electrical and chemical signals. It's divided into regions like the cerebrum, cerebellum, and brainstem, each with specialized functions.",
-            
+
             # Mathematics
             "quadratic equations": "Quadratic equations are polynomial equations of degree 2, typically in the form ax² + bx + c = 0. They can be solved using the quadratic formula: x = (-b ± √(b²-4ac)) / 2a, by factoring, or by completing the square.",
             "calculus": "Calculus is the mathematical study of continuous change. It includes differential calculus (rates of change and slopes) and integral calculus (accumulation of quantities and areas under curves). It's used in physics, engineering, economics, and many other fields.",
             "algebra": "Algebra is a branch of mathematics dealing with symbols and the rules for manipulating those symbols. It includes solving equations, working with functions, and understanding mathematical relationships.",
             "geometry": "Geometry is the branch of mathematics concerned with questions of shape, size, relative position of figures, and the properties of space. It includes plane geometry (2D) and solid geometry (3D).",
-            
+
             # Programming
             "machine learning": "Machine learning is a subset of artificial intelligence that enables computers to learn and improve from experience without being explicitly programmed. It uses algorithms to analyze data, identify patterns, and make decisions with minimal human intervention.",
             "programming fundamentals": "Programming fundamentals include variables, data types, control structures (loops, conditionals), functions, and algorithms. These building blocks allow developers to create instructions for computers to execute.",
             "algorithms": "Algorithms are step-by-step procedures for solving problems or performing computations. They form the foundation of computer programming and are evaluated based on efficiency, correctness, and clarity.",
             "data structures": "Data structures are ways of organizing and storing data in computers so it can be accessed and modified efficiently. Common examples include arrays, linked lists, stacks, queues, trees, and graphs.",
-            
+
             # English & Literature
             "shakespeare": "William Shakespeare was an English playwright and poet, widely regarded as the greatest writer in the English language. His works include tragedies like Hamlet and Macbeth, comedies like A Midsummer Night's Dream, and sonnets that explore themes of love, time, and mortality.",
             "essay writing": "Essay writing involves organizing thoughts and arguments in a structured format with an introduction, body paragraphs, and conclusion. Good essays have clear thesis statements, supporting evidence, and logical flow between ideas.",
             "grammar": "Grammar is the system of rules that governs how words are combined to form meaningful sentences. It includes parts of speech, sentence structure, punctuation, and syntax that help communicate ideas clearly."
         }
-    
+
     def get_educational_quotes(self) -> List[str]:
         """Return list of educational quotes for rotation"""
         return self.educational_quotes
-    
+
     def get_quick_questions(self) -> List[str]:
         """Return list of quick questions for the assistant"""
         return self.quick_questions
-    
+
     @lru_cache(maxsize=100)
-    def summarize_text(self, text: str) -> str:
-        """Enhanced text summarization with performance monitoring"""
-        start_time = time.time()
-        
-        # Check cache first
-        cache_key = f"summary_{hash(text)}"
-        if cache_key in self.processing_cache:
-            return self.processing_cache[cache_key]
-        
-        if len(text) < 100:
-            return "Text too short to summarize effectively. Please provide longer content."
-        
-        # Split into sentences
-        sentences = re.split(r'[.!?]+', text)
-        sentences = [s.strip() for s in sentences if len(s.strip()) > 10]
-        
-        if len(sentences) <= 3:
-            return text
-        
-        # Simple scoring based on word frequency and position
-        word_freq = {}
-        words = re.findall(r'\b\w+\b', text.lower())
-        for word in words:
-            if len(word) > 3:  # Skip short words
-                word_freq[word] = word_freq.get(word, 0) + 1
-        
-        # Score sentences
-        sentence_scores = []
-        for i, sentence in enumerate(sentences):
-            score = 0
-            sentence_words = re.findall(r'\b\w+\b', sentence.lower())
-            for word in sentence_words:
-                if word in word_freq:
-                    score += word_freq[word]
-            
-            # Boost score for sentences at beginning and end
-            if i < 2 or i >= len(sentences) - 2:
-                score *= 1.2
-            
-            sentence_scores.append((score, sentence))
-        
-        # Select top sentences (roughly 1/3 of original)
-        sentence_scores.sort(reverse=True)
-        num_sentences = max(2, len(sentences) // 3)
-        selected = sentence_scores[:num_sentences]
-        
-        # Sort by original order
-        selected_sentences = []
-        for score, sentence in selected:
-            original_index = sentences.index(sentence)
-            selected_sentences.append((original_index, sentence))
-        
-        selected_sentences.sort()
-        summary = '. '.join([sent for _, sent in selected_sentences]) + '.'
-        
-        # Cache the result
-        self.processing_cache[cache_key] = summary
-        
-        # Track performance
-        processing_time = time.time() - start_time
-        self.response_times.append(processing_time)
-        
-        return summary
-    
+    def summarize_text(self, text: str, max_length=150, length='medium', style='general'):
+        """Generate a summary of the given text with customizable options"""
+        try:
+            # Determine length parameters
+            length_instructions = {
+                'short': "in 2-3 sentences",
+                'medium': "in 1 paragraph (4-6 sentences)",
+                'long': "in 2-3 paragraphs with detailed explanations"
+            }
+
+            # Determine style parameters
+            style_instructions = {
+                'general': "using clear and accessible language",
+                'bullet': "as a list of key bullet points",
+                'academic': "in formal academic style with precise terminology",
+                'simple': "using simple language suitable for beginners"
+            }
+
+            length_prompt = length_instructions.get(length, length_instructions['medium'])
+            style_prompt = style_instructions.get(style, style_instructions['general'])
+
+            # Enhanced prompt for better summaries
+            prompt = f"""Please provide a comprehensive summary of the following text {length_prompt}, {style_prompt}. 
+            Focus on the main points, key information, and essential concepts:
+
+            Text: {text}
+
+            Summary:"""
+
+            response = self.get_assistant_response(prompt)
+            return response.strip()
+        except Exception as e:
+            return f"Error generating summary: {str(e)}"
+
     @lru_cache(maxsize=50)
     def generate_flashcards(self, text: str) -> List[Dict[str, str]]:
         """Enhanced flashcard generation with caching"""
         start_time = time.time()
-        
+
         cache_key = f"flashcards_{hash(text)}"
         if cache_key in self.processing_cache:
             return self.processing_cache[cache_key]
-            
+
         if len(text) < 50:
             return []
-        
+
         # Simple keyword extraction
         sentences = re.split(r'[.!?]+', text)
         sentences = [s.strip() for s in sentences if len(s.strip()) > 20]
-        
+
         flashcards = []
-        
+
         # Look for definition patterns
         for sentence in sentences:
             if any(word in sentence.lower() for word in ['is', 'are', 'means', 'refers to', 'defined as']):
@@ -170,7 +140,7 @@ class AIProcessor:
                             'front': f"What is {term}?",
                             'back': definition
                         })
-        
+
         # Generate question-based flashcards from key phrases
         key_phrases = re.findall(r'\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b', text)
         for phrase in key_phrases[:5]:  # Limit to 5
@@ -179,60 +149,60 @@ class AIProcessor:
                     'front': f"Explain the concept of {phrase}",
                     'back': f"Based on the provided text: {phrase} is discussed in the context of the material you studied."
                 })
-        
+
         flashcards = flashcards[:10]  # Limit to 10 flashcards
-        
+
         # Cache the result
         self.processing_cache[cache_key] = flashcards
-        
+
         # Track performance
         processing_time = time.time() - start_time
         self.response_times.append(processing_time)
-        
+
         return flashcards
-    
+
     def get_assistant_response(self, question: str) -> str:
         """Enhanced AI assistant response with context awareness"""
         start_time = time.time()
         question_lower = question.lower()
-        
+
         # Performance boost with caching
         cache_key = f"response_{hash(question_lower)}"
         if cache_key in self.processing_cache:
             return self.processing_cache[cache_key]
-        
+
         # Check for matches in knowledge base
         for key, answer in self.knowledge_base.items():
             if key in question_lower or any(word in question_lower for word in key.split()):
                 return answer
-        
+
         # Generic responses for common question types
         if any(word in question_lower for word in ['what', 'explain', 'define']):
             return "I'd be happy to help explain that concept! Could you provide more specific details about what aspect you'd like me to focus on? I can help with topics in science, mathematics, programming, and general academic subjects."
-        
+
         elif any(word in question_lower for word in ['how', 'solve', 'calculate']):
             return "For problem-solving questions, I recommend breaking down the problem into smaller steps. Could you share the specific problem or equation you're working with? I can guide you through the solution process."
-        
+
         elif any(word in question_lower for word in ['why', 'reason', 'cause']):
             return "That's a great analytical question! Understanding the 'why' behind concepts is crucial for deeper learning. Could you provide more context about the specific topic you're exploring?"
-        
+
         else:
             response = "I'm here to help with your studies! I can assist with explanations, problem-solving, and study strategies across various subjects. What specific topic would you like to explore?"
-        
+
         # Cache the response
         self.processing_cache[cache_key] = response
-        
+
         # Track performance
         processing_time = time.time() - start_time
         self.response_times.append(processing_time)
-        
+
         return response
-    
+
     def get_performance_stats(self) -> Dict[str, Any]:
         """Get AI processing performance statistics"""
         if not self.response_times:
             return {"avg_response_time": 0, "total_requests": 0, "cache_size": 0}
-        
+
         return {
             "avg_response_time": sum(self.response_times) / len(self.response_times),
             "total_requests": len(self.response_times),
@@ -240,18 +210,18 @@ class AIProcessor:
             "fastest_response": min(self.response_times),
             "slowest_response": max(self.response_times)
         }
-    
+
     def get_activity_data(self) -> Dict[str, Any]:
         """Generate activity data for charts"""
         days = ['Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu']
         activities = [0, 0, 0, 0, 0, 0, 3]  # Current activity pattern
-        
+
         return {
             'labels': days,
             'data': activities,
             'total_activities': sum(activities)
         }
-    
+
     def generate_quiz(self, topic: str, difficulty: str = "medium") -> dict:
         """Generate a quiz based on topic and difficulty"""
         quiz_questions = {
@@ -346,7 +316,7 @@ class AIProcessor:
                 ]
             }
         }
-        
+
         topic_lower = topic.lower()
         if topic_lower in quiz_questions and difficulty in quiz_questions[topic_lower]:
             import random

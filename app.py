@@ -47,15 +47,15 @@ def assistant_chat():
     if message:
         # Get AI response
         response = ai_processor.get_assistant_response(message)
-        
+
         # Update chat history
         chat_history = session.get('chat_history', [])
         chat_history.append({'user': message, 'assistant': response})
         session['chat_history'] = chat_history[-10:]  # Keep last 10 messages
-        
+
         # Increment questions count
         session['questions_count'] = session.get('questions_count', 0) + 1
-    
+
     return redirect(url_for('assistant'))
 
 @app.route('/assistant/clear')
@@ -64,32 +64,31 @@ def clear_chat():
     session.pop('chat_history', None)
     return redirect(url_for('assistant'))
 
-@app.route('/summarizer')
+@app.route('/summarizer', methods=['GET', 'POST'])
 def summarizer():
-    """Note summarizer interface"""
-    return render_template('summarizer.html')
+    if request.method == 'POST':
+        text = request.form.get('text', '')
+        file = request.files.get('file')
 
-@app.route('/summarizer/process', methods=['POST'])
-def process_summary():
-    """Process text summarization"""
-    text = request.form.get('text', '').strip()
-    if text:
-        summary = ai_processor.summarize_text(text)
-        session['last_summary'] = summary
-        session['summaries_count'] = session.get('summaries_count', 0) + 1
-        
-        # Save to history
-        from datetime import datetime
-        summary_history = session.get('summary_history', [])
-        summary_history.append({
-            'text': text[:100] + '...' if len(text) > 100 else text,
-            'summary': summary[:200] + '...' if len(summary) > 200 else summary,
-            'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        })
-        session['summary_history'] = summary_history[-20:]  # Keep last 20
-        
-        return render_template('summarizer.html', text=text, summary=summary)
-    return render_template('summarizer.html', error="Please enter text to summarize")
+        # Handle file upload
+        if file and file.filename.endswith('.txt'):
+            try:
+                text = file.read().decode('utf-8')
+            except Exception as e:
+                return jsonify({'error': 'Error reading file'}), 400
+
+        if text:
+            try:
+                length = request.form.get('length', 'medium')
+                style = request.form.get('style', 'general')
+
+                # Pass additional parameters to AI processor
+                summary = ai_processor.summarize_text(text, length=length, style=style)
+                return jsonify({'summary': summary})
+            except Exception as e:
+                return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'No text provided'}), 400
+    return render_template('summarizer.html')
 
 @app.route('/flashcards')
 def flashcards():
@@ -105,7 +104,7 @@ def generate_flashcards():
         flashcards = ai_processor.generate_flashcards(text)
         session['current_flashcards'] = flashcards
         session['flashcards_count'] = session.get('flashcards_count', 0) + len(flashcards)
-        
+
         # Save to history
         from datetime import datetime
         flashcard_history = session.get('flashcard_history', [])
@@ -115,7 +114,7 @@ def generate_flashcards():
             'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         })
         session['flashcard_history'] = flashcard_history[-20:]  # Keep last 20
-        
+
         return render_template('flashcards.html', flashcards=flashcards)
     return render_template('flashcards.html', error="Please enter text to generate flashcards")
 
@@ -129,11 +128,11 @@ def generate_quiz():
     """Generate a quiz"""
     topic = request.form.get('topic', 'science')
     difficulty = request.form.get('difficulty', 'medium')
-    
+
     quiz_data = ai_processor.generate_quiz(topic, difficulty)
     session['current_quiz'] = quiz_data
     session['quiz_answers'] = {}
-    
+
     return render_template('quiz.html', quiz=quiz_data)
 
 @app.route('/quiz/submit', methods=['POST'])
@@ -142,11 +141,11 @@ def submit_quiz():
     quiz_data = session.get('current_quiz', {})
     if not quiz_data:
         return redirect(url_for('quiz'))
-    
+
     answers = {}
     score = 0
     total = len(quiz_data.get('questions', []))
-    
+
     for i, question in enumerate(quiz_data.get('questions', [])):
         user_answer = request.form.get(f'question_{i}')
         if user_answer is not None:
@@ -159,7 +158,7 @@ def submit_quiz():
             }
             if user_answer == question['correct']:
                 score += 1
-    
+
     session['quiz_results'] = {
         'score': score,
         'total': total,
@@ -167,7 +166,7 @@ def submit_quiz():
         'answers': answers
     }
     session['quizzes_count'] = session.get('quizzes_count', 0) + 1
-    
+
     return render_template('quiz.html', quiz=quiz_data, results=session['quiz_results'])
 
 @app.route('/progress')
@@ -197,7 +196,7 @@ def history():
 def clear_history():
     """Clear activity history"""
     activity_type = request.form.get('type', 'all')
-    
+
     if activity_type == 'all':
         session.pop('summary_history', None)
         session.pop('flashcard_history', None)
@@ -208,7 +207,7 @@ def clear_history():
         session.pop('flashcard_history', None)
     elif activity_type == 'chats':
         session.pop('chat_history', None)
-    
+
     return redirect(url_for('history'))
 
 @app.route('/about')
@@ -223,20 +222,20 @@ def signin():
         email = request.form.get('email')
         password = request.form.get('password')
         remember = request.form.get('remember')
-        
+
         # Simple authentication (in production, use proper password hashing)
         if email and password:
             session['user_email'] = email
             session['user_name'] = email.split('@')[0].title()
             session['is_authenticated'] = True
-            
+
             if remember:
                 session.permanent = True
-            
+
             return redirect(url_for('dashboard'))
         else:
             return render_template('signin.html', error="Invalid email or password")
-    
+
     return render_template('signin.html')
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -248,24 +247,24 @@ def signup():
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
         terms = request.form.get('terms')
-        
+
         # Simple validation
         if not all([name, email, password, confirm_password, terms]):
             return render_template('signup.html', error="All fields are required")
-        
+
         if password != confirm_password:
             return render_template('signup.html', error="Passwords do not match")
-        
+
         if len(password) < 8:
             return render_template('signup.html', error="Password must be at least 8 characters")
-        
+
         # Create account (in production, hash password and store in database)
         session['user_email'] = email
         session['user_name'] = name
         session['is_authenticated'] = True
-        
+
         return redirect(url_for('dashboard'))
-    
+
     return render_template('signup.html')
 
 @app.route('/logout')
@@ -279,7 +278,7 @@ def profile():
     """User profile page"""
     if not session.get('is_authenticated'):
         return redirect(url_for('signin'))
-    
+
     user_data = {
         'name': session.get('user_name', 'User'),
         'email': session.get('user_email', ''),
