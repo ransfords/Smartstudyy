@@ -649,6 +649,33 @@ class NotificationManager {
 // Initialize notification manager
 const notificationManager = new NotificationManager();
 
+// Add performance improvements
+const optimizeUiResponsiveness = () => {
+    // Use event delegation for better performance
+    document.addEventListener('click', (e) => {
+        if (e.target.matches('button, a, [role="button"]')) {
+            // Add visual feedback immediately
+            e.target.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                e.target.style.transform = '';
+            }, 100);
+        }
+    });
+    
+    // Optimize form submissions
+    document.addEventListener('submit', (e) => {
+        const form = e.target;
+        const submitBtn = form.querySelector('button[type="submit"]');
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
+        }
+    });
+};
+
+// Call optimization on load
+document.addEventListener('DOMContentLoaded', optimizeUiResponsiveness);
+
 // Enhanced performance utilities
 function memoize(fn, keyGenerator) {
     return function(...args) {

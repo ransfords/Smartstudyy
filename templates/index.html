@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 
 {% block title %}SmartStudy - Study Smarter with AI{% endblock %}
@@ -15,14 +14,14 @@
                     </div>
                     <span class="text-xl font-bold">SmartStudy</span>
                 </div>
-                
+
                 <div class="flex items-center space-x-4">
                     <!-- Theme Toggle -->
                     <button id="theme-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors">
                         <i class="fas fa-sun dark:hidden"></i>
                         <i class="fas fa-moon hidden dark:block"></i>
                     </button>
-                    
+
                     <!-- Auth Buttons -->
                     <a href="{{ url_for('signin') }}" class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 font-medium transition-colors">
                         Sign In
@@ -41,21 +40,21 @@
             <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                 SmartStudy
             </h1>
-            
+
             <h2 class="text-2xl md:text-3xl font-semibold mb-6 text-gray-900 dark:text-white">
                 Study Smarter, Not Harder
             </h2>
-            
+
             <p class="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
                 Transform your notes into summaries, flashcards, and quizzes instantly. Powered by advanced AI to make learning effortless and personalized.
             </p>
-            
+
             <div class="flex justify-center mb-16">
                 <a href="{{ url_for('dashboard') }}" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all transform hover:scale-105">
                     Start Learning Free
                 </a>
             </div>
-            
+
             <!-- Rotating Quote Section -->
             <div class="max-w-3xl mx-auto p-8 bg-white/80 dark:bg-slate-800/50 rounded-2xl backdrop-blur-sm border border-gray-200 dark:border-slate-700">
                 <div id="quote-container" class="min-h-[80px] flex items-center justify-center">
@@ -63,7 +62,7 @@
                         "{{ quotes[0] }}"
                     </blockquote>
                 </div>
-                
+
                 <div class="flex items-center justify-center space-x-4 mt-6">
                     <button onclick="pauseQuotes()" class="flex items-center space-x-2 text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
                         <i class="fas fa-pause" id="pause-icon"></i>
@@ -74,7 +73,7 @@
                         <span>Next</span>
                     </button>
                 </div>
-                
+
                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-4">Inspiring quotes for learners</p>
             </div>
         </div>
@@ -89,7 +88,7 @@
                     Get started with our AI-powered learning tools in just a few simple steps
                 </p>
             </div>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="text-center p-8 rounded-2xl bg-gray-50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600">
                     <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -100,7 +99,7 @@
                         Paste your notes, upload documents, or type directly into our text areas. Our AI works with any study material.
                     </p>
                 </div>
-                
+
                 <div class="text-center p-8 rounded-2xl bg-gray-50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600">
                     <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-magic text-white text-2xl"></i>
@@ -110,7 +109,7 @@
                         Generate summaries, create flashcards, build quizzes, or chat with our AI assistant for instant help.
                     </p>
                 </div>
-                
+
                 <div class="text-center p-8 rounded-2xl bg-gray-50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600">
                     <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-rocket text-white text-2xl"></i>
@@ -133,7 +132,7 @@
                     Everything you need to supercharge your learning
                 </p>
             </div>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div class="p-6 bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 hover:shadow-lg transition-shadow">
                     <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
@@ -142,7 +141,7 @@
                     <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">AI Summarizer</h3>
                     <p class="text-gray-600 dark:text-gray-300 text-sm">Transform lengthy texts into concise, focused summaries</p>
                 </div>
-                
+
                 <div class="p-6 bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 hover:shadow-lg transition-shadow">
                     <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-4">
                         <i class="fas fa-cards-blank text-white text-xl"></i>
@@ -150,7 +149,7 @@
                     <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Smart Flashcards</h3>
                     <p class="text-gray-600 dark:text-gray-300 text-sm">Generate interactive flashcards from any content automatically</p>
                 </div>
-                
+
                 <div class="p-6 bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 hover:shadow-lg transition-shadow">
                     <div class="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mb-4">
                         <i class="fas fa-question-circle text-white text-xl"></i>
@@ -158,7 +157,7 @@
                     <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Interactive Quizzes</h3>
                     <p class="text-gray-600 dark:text-gray-300 text-sm">Test your knowledge with AI-generated quizzes and explanations</p>
                 </div>
-                
+
                 <div class="p-6 bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 hover:shadow-lg transition-shadow">
                     <div class="w-12 h-12 bg-orange-600 rounded-lg flex items-center justify-center mb-4">
                         <i class="fas fa-robot text-white text-xl"></i>
@@ -176,7 +175,7 @@
             <div class="text-center mb-16">
                 <h2 class="text-4xl font-bold mb-4 text-gray-900 dark:text-white">Meet the Developer</h2>
             </div>
-            
+
             <div class="max-w-4xl mx-auto">
                 <!-- Developer Card -->
                 <div class="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-slate-800 dark:to-purple-900/30 rounded-3xl p-8 border border-gray-200 dark:border-slate-700 shadow-lg">
@@ -208,16 +207,16 @@
                                              loading="lazy">
                                     </div>
                                 </div>
-                                
+
                                 <!-- Decorative badges -->
                                 <div class="absolute -top-3 -right-3 w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg border-2 border-white dark:border-slate-800">
                                     <i class="fas fa-code text-white text-sm"></i>
                                 </div>
-                                
+
                                 <div class="absolute -bottom-3 -left-3 w-10 h-10 bg-gradient-to-r from-green-500 to-teal-500 rounded-full flex items-center justify-center shadow-lg border-2 border-white dark:border-slate-800">
                                     <i class="fas fa-graduation-cap text-white text-xs"></i>
                                 </div>
-                                
+
                                 <!-- Online status indicator -->
                                 <div class="absolute top-4 right-4 w-4 h-4 bg-green-400 rounded-full border-2 border-white dark:border-slate-800 animate-pulse"></div>
                             </div>
@@ -231,13 +230,13 @@
                                     that education should be both <span class="text-blue-600 dark:text-blue-400 font-semibold">intelligent</span> 
                                     and <span class="text-purple-600 dark:text-purple-400 font-semibold">accessible</span> to everyone.
                                 </p>
-                                
+
                                 <p class="mb-4">
                                     While many educational tools exist, I envisioned something different. SmartStudy isn't just 
                                     another app that answers questions—it's an AI companion that truly understands students, 
                                     their unique pace, challenges, and learning aspirations.
                                 </p>
-                                
+
                                 <p>
                                     Every feature you interact with has been meticulously crafted to feel personal, lightning-fast, 
                                     and genuinely empowering. My goal is simple: help you learn better, deeper, and 
@@ -287,7 +286,7 @@
                     </a>
                 </div>
             </div>
-            
+
             <div>
                 <h3 class="font-semibold mb-4 text-gray-900 dark:text-white">Features</h3>
                 <ul class="space-y-2 text-gray-600 dark:text-gray-400">
@@ -297,7 +296,7 @@
                     <li><a href="{{ url_for('assistant') }}" class="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">AI Assistant</a></li>
                 </ul>
             </div>
-            
+
             <div>
                 <h3 class="font-semibold mb-4 text-gray-900 dark:text-white">Support</h3>
                 <ul class="space-y-2 text-gray-600 dark:text-gray-400">
@@ -308,7 +307,7 @@
                 </ul>
             </div>
         </div>
-        
+
         <div class="border-t border-gray-200 dark:border-slate-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
             <p class="text-gray-600 dark:text-gray-400 text-sm">
                 © 2024 SmartStudy. All rights reserved.
@@ -330,7 +329,7 @@
     function updateQuote() {
         const quoteElement = document.getElementById('rotating-quote');
         quoteElement.style.opacity = '0';
-        
+
         setTimeout(() => {
             quoteElement.textContent = `"${quotes[currentQuoteIndex]}"`;
             quoteElement.style.opacity = '1';
@@ -345,7 +344,7 @@
     function pauseQuotes() {
         const pauseIcon = document.getElementById('pause-icon');
         const pauseText = document.getElementById('pause-text');
-        
+
         if (isPlaying) {
             clearInterval(quoteInterval);
             pauseIcon.className = 'fas fa-play';
@@ -369,3 +368,261 @@
     });
 </script>
 {% endblock %}
+```
+
+```python
+{% extends "base.html" %}
+
+{% block title %}SmartStudy - Study Smarter with AI{% endblock %}
+
+{% block content %}
+<div class="bg-white dark:bg-slate-900 text-gray-900 dark:text-white transition-colors duration-300">
+    <!-- Top Navigation for Landing Page -->
+    <nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-b border-gray-200 dark:border-slate-700">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-brain text-white text-sm"></i>
+                    </div>
+                    <span class="text-xl font-bold">SmartStudy</span>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <!-- Theme Toggle -->
+                    <button id="theme-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors">
+                        <i class="fas fa-sun dark:hidden"></i>
+                        <i class="fas fa-moon hidden dark:block"></i>
+                    </button>
+
+                    <!-- Auth Buttons -->
+                    <a href="{{ url_for('signin') }}" class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 font-medium transition-colors">
+                        Sign In
+                    </a>
+                    <a href="{{ url_for('signup') }}" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                        Sign Up
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-20 pb-16 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-slate-900 dark:via-purple-900 dark:to-slate-900">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                SmartStudy
+            </h1>
+
+            <h2 class="text-2xl md:text-3xl font-semibold mb-6 text-gray-900 dark:text-white">
+                Study Smarter, Not Harder
+            </h2>
+
+            <p class="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
+                Transform your notes into summaries, flashcards, and quizzes instantly. Powered by advanced AI to make learning effortless and personalized.
+            </p>
+
+            <div class="flex justify-center mb-16">
+                <a href="{{ url_for('dashboard') }}" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all transform hover:scale-105">
+                    Start Learning Free
+                </a>
+            </div>
+
+            <!-- Rotating Quote Section -->
+            <div class="max-w-3xl mx-auto p-8 bg-white/80 dark:bg-slate-800/50 rounded-2xl backdrop-blur-sm border border-gray-200 dark:border-slate-700">
+                <div id="quote-container" class="min-h-[80px] flex items-center justify-center">
+                    <blockquote class="text-lg italic text-gray-700 dark:text-gray-300" id="rotating-quote">
+                        "{{ quotes[0] }}"
+                    </blockquote>
+                </div>
+
+                <div class="flex items-center justify-center space-x-4 mt-6">
+                    <button onclick="pauseQuotes()" class="flex items-center space-x-2 text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                        <i class="fas fa-pause" id="pause-icon"></i>
+                        <span id="pause-text">Pause</span>
+                    </button>
+                    <button onclick="nextQuote()" class="flex items-center space-x-2 text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                        <i class="fas fa-forward"></i>
+                        <span>Next</span>
+                    </button>
+                </div>
+
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-4">Inspiring quotes for learners</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How to Use Section -->
+    <section id="how-to-use" class="py-20 bg-white dark:bg-slate-800">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4 text-gray-900 dark:text-white">How to Use SmartStudy</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                    Get started with our AI-powered learning tools in just a few simple steps
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center p-8 rounded-2xl bg-gray-50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600">
+                    <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-upload text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">1. Upload Your Content</h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Paste your notes, upload documents, or type directly into our text areas. Our AI works with any study material.
+                    </p>
+                </div>
+
+                <div class="text-center p-8 rounded-2xl bg-gray-50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600">
+                    <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-magic text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">2. Choose Your Tool</h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Generate summaries, create flashcards, build quizzes, or chat with our AI assistant for instant help.
+                    </p>
+                </div>
+
+                <div class="text-center p-8 rounded-2xl bg-gray-50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600">
+                    <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-rocket text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">3. Learn & Progress</h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Use your generated materials to study effectively. Track your progress and build lasting knowledge.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 bg-gray-50 dark:bg-slate-900">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4 text-gray-900 dark:text-white">Powerful Features</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300">
+                    Everything you need to supercharge your learning
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="p-6 bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 hover:shadow-lg transition-shadow">
+                    <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-```
+Fix developer section layout and visibility
+Replacing
+<old_str>
+<!-- Developer Section -->
+            <div class="max-w-6xl mx-auto px-6 mb-20">
+                <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 border border-gray-200 dark:border-slate-700 transition-colors duration-300">
+                    <div class="flex flex-col lg:flex-row items-center gap-8">
+                        <!-- Developer Image -->
+                        <div class="flex-shrink-0">
+                            <div class="relative">
+                                <div class="w-48 h-48 rounded-2xl overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 p-1">
+                                    <img src="{{ url_for('static', filename='developer.jpg') }}" 
+                                         alt="Ransford Awuah-Tabiri" 
+                                         class="w-full h-full object-cover rounded-xl">
+                                </div>
+                                <!-- Decorative elements -->
+                                <div class="absolute -top-2 -right-2 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-code text-white text-sm"></i>
+                                </div>
+                                <div class="absolute -bottom-2 -left-2 w-6 h-6 bg-green-500 rounded-full animate-pulse"></div>
+                            </div>
+                        </div>
+
+                        <!-- Developer Info -->
+                        <div class="flex-1 text-center lg:text-left">
+                            <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">
+                                Ransford Awuah-Tabiri
+                            </h2>
+                            <div class="flex flex-wrap gap-3 justify-center lg:justify-start mb-6">
+                                <span class="px-4 py-2 bg-blue-600 text-white rounded-full text-sm font-medium">
+                                    <i class="fas fa-laptop-code mr-2"></i>Full-Stack Developer
+                                </span>
+                                <span class="px-4 py-2 bg-green-600 text-white rounded-full text-sm font-medium">
+                                    <i class="fas fa-map-marker-alt mr-2"></i>Ghana
+                                </span>
+                            </div>
+
+                            <div class="text-gray-600 dark:text-gray-300 leading-relaxed space-y-4">
+                                <p>I'm a passionate Computer Science student from Ghana, driven by the belief that education should be both <strong class="text-blue-600 dark:text-blue-400">intelligent</strong> and <strong class="text-purple-600 dark:text-purple-400">accessible</strong> to everyone.</p>
+
+                                <p>While many educational tools exist, I envisioned something different. SmartStudy isn't just another app that answers questions—it's an AI companion that truly understands students, their unique pace, challenges, and learning aspirations.</p>
+
+                                <p>Every feature you interact with has been meticulously crafted to feel personal, lightning-fast, and genuinely empowering. My goal is simple: help you learn better, deeper, and smarter than ever before.</p>
+                            </div>
+
+                            <div class="mt-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-slate-700 dark:to-slate-800 rounded-2xl border border-blue-200 dark:border-slate-600">
+                                <p class="text-xl font-semibold text-center text-gray-800 dark:text-gray-200">
+                                    <i class="fas fa-quote-left text-blue-400 mr-2"></i>
+                                    "SmartStudy: Your Brain, Upgraded."
+                                    <i class="fas fa-quote-right text-blue-400 ml-2"></i>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</old_str>
+with
+<new_str>
+<!-- Developer Section -->
+            <div class="max-w-6xl mx-auto px-6 mb-20">
+                <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 border border-gray-200 dark:border-slate-700 transition-colors duration-300">
+                    <div class="flex flex-col lg:flex-row items-center gap-8">
+                        <!-- Developer Image -->
+                        <div class="flex-shrink-0">
+                            <div class="relative">
+                                <div class="w-48 h-48 rounded-2xl overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 p-1">
+                                    <div class="w-full h-full bg-gray-200 dark:bg-slate-700 rounded-xl flex items-center justify-center">
+                                        <div class="text-center">
+                                            <i class="fas fa-user text-4xl text-gray-400 dark:text-gray-500 mb-2"></i>
+                                            <p class="text-sm text-gray-500 dark:text-gray-400">Developer Photo</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Decorative elements -->
+                                <div class="absolute -top-2 -right-2 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-code text-white text-sm"></i>
+                                </div>
+                                <div class="absolute -bottom-2 -left-2 w-6 h-6 bg-green-500 rounded-full animate-pulse"></div>
+                            </div>
+                        </div>
+
+                        <!-- Developer Info -->
+                        <div class="flex-1 text-center lg:text-left">
+                            <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">
+                                Ransford Awuah-Tabiri
+                            </h2>
+                            <div class="flex flex-wrap gap-3 justify-center lg:justify-start mb-6">
+                                <span class="px-4 py-2 bg-blue-600 text-white rounded-full text-sm font-medium">
+                                    <i class="fas fa-laptop-code mr-2"></i>Full-Stack Developer
+                                </span>
+                                <span class="px-4 py-2 bg-green-600 text-white rounded-full text-sm font-medium">
+                                    <i class="fas fa-map-marker-alt mr-2"></i>Ghana
+                                </span>
+                            </div>
+
+                            <div class="text-gray-600 dark:text-gray-300 leading-relaxed space-y-4">
+                                <p>I'm a passionate Computer Science student from Ghana, driven by the belief that education should be both <strong class="text-blue-600 dark:text-blue-400">intelligent</strong> and <strong class="text-purple-600 dark:text-purple-400">accessible</strong> to everyone.</p>
+
+                                <p>While many educational tools exist, I envisioned something different. SmartStudy isn't just another app that answers questions—it's an AI companion that truly understands students, their unique pace, challenges, and learning aspirations.</p>
+
+                                <p>Every feature you interact with has been meticulously crafted to feel personal, lightning-fast, and genuinely empowering. My goal is simple: help you learn better, deeper, and smarter than ever before.</p>
+                            </div>
+
+                            <div class="mt-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-slate-700 dark:to-slate-800 rounded-2xl border border-blue-200 dark:border-slate-600">
+                                <p class="text-xl font-semibold text-center text-gray-800 dark:text-gray-200">
+                                    <i class="fas fa-quote-left text-blue-400 mr-2"></i>
+                                    "SmartStudy: Your Brain, Upgraded."
+                                    <i class="fas fa-quote-right text-blue-400 ml-2"></i>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</new_str>
+</changes>

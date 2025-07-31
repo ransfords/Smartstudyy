@@ -369,17 +369,18 @@ footer {
 .notification-item {
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow: 
-        0 8px 32px rgba(31, 38, 135, 0.37),
-        0 4px 16px rgba(255, 255, 255, 0.1) inset,
+        0 8px 32px rgba(31, 38, 135, 0.4),
+        0 4px 16px rgba(255, 255, 255, 0.15) inset,
         0 1px 2px rgba(0, 0, 0, 0.1);
     min-width: 320px;
     max-width: 420px;
     border-radius: 16px;
     position: relative;
     overflow: hidden;
+    z-index: 9999;
 }
 
 [data-theme="dark"] .notification-item {

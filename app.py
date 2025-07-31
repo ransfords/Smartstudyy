@@ -10,6 +10,11 @@ logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 app.secret_key = os.environ.get("SESSION_SECRET", "smartstudy-dev-key")
 
+# Add enumerate filter to Jinja2
+@app.template_filter('enumerate')
+def enumerate_filter(iterable):
+    return enumerate(iterable)
+
 # Initialize AI processor
 ai_processor = AIProcessor()
 
@@ -90,6 +95,18 @@ def summarizer():
 
                 # Pass additional parameters to AI processor
                 summary = ai_processor.summarize_text(text, length=length, style=style)
+                
+                # Save to history
+                from datetime import datetime
+                summary_history = session.get('summary_history', [])
+                summary_history.append({
+                    'text': text[:100] + '...' if len(text) > 100 else text,
+                    'summary': summary[:200] + '...' if len(summary) > 200 else summary,
+                    'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                })
+                session['summary_history'] = summary_history[-20:]  # Keep last 20
+                session['summaries_count'] = session.get('summaries_count', 0) + 1
+                
                 return jsonify({'summary': summary})
             except Exception as e:
                 return jsonify({'error': str(e)}), 500
