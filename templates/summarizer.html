@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}AI Note Summarizer - SmartStudy{% endblock %}
+
+{% block main_content %}
+<div class="p-6 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 min-h-screen">
+    <!-- Header -->
+    <div class="mb-6">
+        <div class="flex items-center justify-between">
+            <h1 class="text-2xl font-bold">AI Note Summarizer</h1>
+            <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                <i class="fas fa-upload mr-2"></i>
+                Upload .txt file
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Input Panel -->
+        <div class="bg-slate-800 rounded-xl border border-slate-700">
+            <div class="p-4 border-b border-slate-700">
+                <h2 class="text-lg font-semibold">Input Text</h2>
+            </div>
+            <div class="p-4">
+                <form method="POST" action="{{ url_for('process_summary') }}">
+                    <textarea name="text" 
+                              placeholder="Paste your notes here or upload a .txt file..."
+                              class="w-full h-96 bg-slate-900 border border-slate-600 rounded-lg p-4 text-sm resize-none focus:outline-none focus:border-blue-500"
+                              required>{{ text if text else '' }}</textarea>
+                    
+                    <div class="mt-4 flex justify-end">
+                        <button type="submit" 
+                                class="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-lg font-medium transition-colors flex items-center space-x-2">
+                            <i class="fas fa-magic"></i>
+                            <span>Generate AI Summary</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Output Panel -->
+        <div class="bg-slate-800 rounded-xl border border-slate-700">
+            <div class="p-4 border-b border-slate-700">
+                <h2 class="text-lg font-semibold">AI Summary</h2>
+            </div>
+            <div class="p-4">
+                {% if summary %}
+                <div class="bg-slate-900 border border-slate-600 rounded-lg p-4 h-96 overflow-y-auto">
+                    <p class="text-sm leading-relaxed">{{ summary }}</p>
+                </div>
+                
+                <div class="mt-4 flex space-x-3">
+                    <button onclick="copyToClipboard()" 
+                            class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2">
+                        <i class="fas fa-copy"></i>
+                        <span>Copy</span>
+                    </button>
+                    
+                    <button onclick="downloadSummary()" 
+                            class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2">
+                        <i class="fas fa-download"></i>
+                        <span>Download</span>
+                    </button>
+                    
+                    <button onclick="generateFlashcards()" 
+                            class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2">
+                        <i class="fas fa-layer-group"></i>
+                        <span>Make Flashcards</span>
+                    </button>
+                </div>
+                {% elif error %}
+                <div class="bg-red-500/10 border border-red-500/20 rounded-lg p-4 h-96 flex items-center justify-center">
+                    <div class="text-center">
+                        <i class="fas fa-exclamation-triangle text-red-400 text-2xl mb-2"></i>
+                        <p class="text-red-400">{{ error }}</p>
+                    </div>
+                </div>
+                {% else %}
+                <div class="bg-slate-900 border border-slate-600 rounded-lg p-4 h-96 flex items-center justify-center">
+                    <div class="text-center text-gray-500">
+                        <i class="fas fa-magic text-3xl mb-4"></i>
+                        <p>Your AI-generated summary will appear here</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function copyToClipboard() {
+    const summaryText = document.querySelector('.bg-slate-900 p').textContent;
+    navigator.clipboard.writeText(summaryText).then(() => {
+        // Show success feedback
+        const button = event.target.closest('button');
+        const originalText = button.innerHTML;
+        button.innerHTML = '<i class="fas fa-check"></i> <span>Copied!</span>';
+        setTimeout(() => {
+            button.innerHTML = originalText;
+        }, 2000);
+    });
+}
+
+function downloadSummary() {
+    const summaryText = document.querySelector('.bg-slate-900 p').textContent;
+    const blob = new Blob([summaryText], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'ai-summary.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+function generateFlashcards() {
+    const summaryText = document.querySelector('.bg-slate-900 p').textContent;
+    // Create a form and submit to flashcards page
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '{{ url_for("generate_flashcards") }}';
+    
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'text';
+    input.value = summaryText;
+    
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+}
+</script>
+{% endblock %}

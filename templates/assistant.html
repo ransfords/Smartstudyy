@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}AI Assistant - SmartStudy{% endblock %}
+
+{% block main_content %}
+<div class="flex h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <!-- Main Chat Area -->
+    <div class="flex-1 flex flex-col">
+        <!-- Header -->
+        <div class="p-6 border-b border-slate-700">
+            <div class="flex items-center justify-between">
+                <h1 class="text-2xl font-bold">AI Assistant</h1>
+                <a href="{{ url_for('clear_chat') }}" 
+                   class="text-gray-400 hover:text-white text-sm flex items-center space-x-2">
+                    <i class="fas fa-trash"></i>
+                    <span>Clear Chat</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Chat Messages -->
+        <div class="flex-1 p-6 overflow-y-auto">
+            {% if not chat_history %}
+            <!-- Welcome Message -->
+            <div class="text-center py-12">
+                <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-robot text-white text-2xl"></i>
+                </div>
+                <h2 class="text-xl font-semibold mb-2">Hello! I'm your AI Study Assistant</h2>
+                <p class="text-gray-400 max-w-md mx-auto">
+                    Ask me anything about your studies! I can help explain concepts, answer questions, 
+                    provide study tips, and assist with your learning journey.
+                </p>
+            </div>
+            {% else %}
+            <!-- Chat History -->
+            <div class="space-y-4">
+                {% for message in chat_history %}
+                <!-- User Message -->
+                <div class="flex justify-end">
+                    <div class="bg-blue-600 rounded-lg px-4 py-2 max-w-lg">
+                        <p>{{ message.user }}</p>
+                    </div>
+                </div>
+                
+                <!-- Assistant Response -->
+                <div class="flex justify-start">
+                    <div class="bg-slate-700 rounded-lg px-4 py-2 max-w-lg">
+                        <p>{{ message.assistant }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Input Form -->
+        <div class="p-6 border-t border-slate-700">
+            <form method="POST" action="{{ url_for('assistant_chat') }}" class="flex space-x-4">
+                <input type="text" 
+                       name="message" 
+                       placeholder="Ask me anything about your studies..." 
+                       class="flex-1 bg-slate-800 border border-slate-600 rounded-lg px-4 py-3 focus:outline-none focus:border-blue-500"
+                       required>
+                <button type="submit" 
+                        class="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-medium transition-colors">
+                    Send
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Quick Questions Sidebar -->
+    <div class="w-80 bg-slate-800 border-l border-slate-700 p-6">
+        <h3 class="text-lg font-semibold mb-4">Quick Questions</h3>
+        <div class="space-y-3">
+            {% for question in quick_questions %}
+            <button onclick="askQuestion('{{ question }}')" 
+                    class="w-full text-left p-3 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm transition-colors">
+                {{ question }}
+            </button>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+function askQuestion(question) {
+    // Fill the input field with the question
+    const input = document.querySelector('input[name="message"]');
+    input.value = question;
+    input.focus();
+}
+</script>
+{% endblock %}

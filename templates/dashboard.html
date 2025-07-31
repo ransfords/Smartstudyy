@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - SmartStudy{% endblock %}
+
+{% block main_content %}
+<div class="p-6 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 min-h-screen">
+    <!-- Welcome Section -->
+    <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 mb-8">
+        <div class="flex items-center space-x-3 mb-4">
+            <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                <i class="fas fa-brain text-white text-sm"></i>
+            </div>
+            <h1 class="text-2xl font-bold text-white">Welcome back, Student!</h1>
+        </div>
+        <p class="text-blue-100">Ready to continue your learning journey? Let's make today productive!</p>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-slate-800 rounded-xl p-6 border border-slate-700">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <p class="text-3xl font-bold">{{ stats.summaries }}</p>
+                    <p class="text-gray-400">Summaries</p>
+                </div>
+                <div class="w-12 h-12 bg-blue-600/20 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-file-text text-blue-400 text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-slate-800 rounded-xl p-6 border border-slate-700">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <p class="text-3xl font-bold">{{ stats.flashcards }}</p>
+                    <p class="text-gray-400">Flashcards</p>
+                </div>
+                <div class="w-12 h-12 bg-green-600/20 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-layer-group text-green-400 text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-slate-800 rounded-xl p-6 border border-slate-700">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <p class="text-3xl font-bold">{{ stats.quizzes }}</p>
+                    <p class="text-gray-400">Quizzes</p>
+                </div>
+                <div class="w-12 h-12 bg-purple-600/20 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-question-circle text-purple-400 text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-slate-800 rounded-xl p-6 border border-slate-700">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <p class="text-3xl font-bold">{{ stats.questions }}</p>
+                    <p class="text-gray-400">Questions</p>
+                </div>
+                <div class="w-12 h-12 bg-orange-600/20 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-lightbulb text-orange-400 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:border-blue-500 transition-colors cursor-pointer"
+             onclick="window.location.href='{{ url_for('summarizer') }}'">
+            <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
+                <i class="fas fa-file-text text-white text-xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Summarize Notes</h3>
+            <p class="text-gray-400">Transform long texts into concise summaries</p>
+        </div>
+
+        <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:border-purple-500 transition-colors cursor-pointer"
+             onclick="window.location.href='{{ url_for('assistant') }}'">
+            <div class="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mb-4">
+                <i class="fas fa-question-circle text-white text-xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Generate Quiz</h3>
+            <p class="text-gray-400">Create practice questions from your notes</p>
+        </div>
+
+        <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:border-green-500 transition-colors cursor-pointer"
+             onclick="window.location.href='{{ url_for('flashcards') }}'">
+            <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-4">
+                <i class="fas fa-layer-group text-white text-xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Create Flashcards</h3>
+            <p class="text-gray-400">Generate interactive study cards</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

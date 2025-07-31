@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}SmartStudy - Study Smarter with AI{% endblock %}
+
+{% block main_content %}
+<!-- Top Navigation for Landing Page -->
+<nav class="absolute top-0 w-full z-50 px-6 py-4">
+    <div class="flex items-center justify-between max-w-7xl mx-auto">
+        <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
+                <i class="fas fa-brain text-white text-sm"></i>
+            </div>
+            <span class="text-xl font-bold">SmartStudy</span>
+        </div>
+        
+        <div class="flex items-center space-x-6">
+            <button class="p-2 hover:bg-slate-800 rounded-lg">
+                <i class="fas fa-sun text-gray-400"></i>
+            </button>
+            <a href="{{ url_for('about') }}" class="text-gray-300 hover:text-white">About</a>
+            <button class="text-gray-300 hover:text-white">Login</button>
+            <button class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg font-medium transition-colors">
+                Sign Up
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center text-center px-6">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            Study Smarter with AI
+        </h1>
+        
+        <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            Transform your notes into summaries, flashcards, and quizzes instantly. Powered by advanced AI to make learning effortless.
+        </p>
+        
+        <button onclick="window.location.href='{{ url_for('dashboard') }}'" 
+                class="bg-purple-600 hover:bg-purple-700 px-8 py-4 rounded-lg text-lg font-semibold transition-all transform hover:scale-105 mb-16">
+            Start Learning
+        </button>
+        
+        <!-- Rotating Quote Section -->
+        <div class="mt-16 p-8 bg-slate-800/50 rounded-2xl backdrop-blur-sm border border-slate-700">
+            <div id="quote-container" class="min-h-[80px] flex items-center justify-center">
+                <blockquote class="text-lg italic text-gray-300 max-w-3xl" id="rotating-quote">
+                    "{{ quotes[0] }}"
+                </blockquote>
+            </div>
+            
+            <div class="flex items-center justify-center space-x-4 mt-6">
+                <button onclick="pauseQuotes()" class="flex items-center space-x-2 text-gray-400 hover:text-white">
+                    <i class="fas fa-pause" id="pause-icon"></i>
+                    <span id="pause-text">Pause</span>
+                </button>
+                <button onclick="nextQuote()" class="flex items-center space-x-2 text-gray-400 hover:text-white">
+                    <i class="fas fa-forward"></i>
+                    <span>Next</span>
+                </button>
+            </div>
+            
+            <p class="text-sm text-gray-500 mt-4">Nelson Mandela – Featured on edX</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Quote rotation functionality
+    const quotes = {{ quotes|tojson }};
+    let currentQuoteIndex = 0;
+    let isPlaying = true;
+    let quoteInterval;
+
+    function updateQuote() {
+        const quoteElement = document.getElementById('rotating-quote');
+        quoteElement.style.opacity = '0';
+        
+        setTimeout(() => {
+            quoteElement.textContent = `"${quotes[currentQuoteIndex]}"`;
+            quoteElement.style.opacity = '1';
+        }, 300);
+    }
+
+    function nextQuote() {
+        currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+        updateQuote();
+    }
+
+    function pauseQuotes() {
+        const pauseIcon = document.getElementById('pause-icon');
+        const pauseText = document.getElementById('pause-text');
+        
+        if (isPlaying) {
+            clearInterval(quoteInterval);
+            pauseIcon.className = 'fas fa-play';
+            pauseText.textContent = 'Play';
+            isPlaying = false;
+        } else {
+            startQuoteRotation();
+            pauseIcon.className = 'fas fa-pause';
+            pauseText.textContent = 'Pause';
+            isPlaying = true;
+        }
+    }
+
+    function startQuoteRotation() {
+        quoteInterval = setInterval(nextQuote, 15000); // 15 seconds
+    }
+
+    // Start quote rotation on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        startQuoteRotation();
+    });
+</script>
+{% endblock %}
