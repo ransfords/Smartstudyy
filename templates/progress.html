@@ -1,17 +1,18 @@
+
 {% extends "base.html" %}
 
 {% block title %}Progress Tracker - SmartStudy{% endblock %}
 
 {% block content %}
-<div class="bg-white dark:bg-slate-900 text-gray-900 dark:text-white transition-colors duration-300">
+<div class="bg-white dark:bg-slate-900 text-gray-900 dark:text-white transition-colors duration-300 min-h-screen">
     <!-- Sidebar Navigation -->
-    <div class="fixed left-0 top-0 h-full w-64 bg-white dark:bg-slate-800 border-r border-gray-200 dark:border-slate-700 transition-colors duration-300">
+    <div class="fixed left-0 top-0 h-full w-64 bg-white dark:bg-slate-800 border-r border-gray-200 dark:border-slate-700 transition-colors duration-300 z-30 lg:block hidden">
         <div class="p-6">
             <div class="flex items-center space-x-3 mb-8">
                 <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
                     <i class="fas fa-brain text-white text-sm"></i>
                 </div>
-                <span class="text-xl font-bold">SmartStudy</span>
+                <span class="text-xl font-bold text-gray-900 dark:text-white">SmartStudy</span>
             </div>
 
             <nav class="space-y-2">
@@ -47,8 +48,15 @@
         </div>
     </div>
 
+    <!-- Mobile Menu Button -->
+    <div class="lg:hidden fixed top-4 left-4 z-50">
+        <button id="mobile-menu-toggle" class="p-2 rounded-lg bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-slate-700">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+
     <!-- Top Header -->
-    <div class="fixed top-0 right-0 left-64 h-16 bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 flex items-center justify-end px-6 z-10 transition-colors duration-300">
+    <div class="fixed top-0 right-0 left-0 lg:left-64 h-16 bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 flex items-center justify-end px-6 z-20 transition-colors duration-300">
         <div class="flex items-center space-x-4">
             <!-- Theme Toggle -->
             <button id="theme-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors">
@@ -63,11 +71,11 @@
     </div>
 
     <!-- Main Content -->
-    <div class="ml-64 pt-16">
-        <div class="p-6 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-slate-900 dark:via-purple-900 dark:to-slate-900 min-h-screen transition-colors duration-300">
-            <div class="max-w-4xl mx-auto">
+    <div class="lg:ml-64 pt-16 px-4 lg:px-6 py-6">
+        <div class="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-slate-900 dark:via-purple-900 dark:to-slate-900 min-h-screen transition-colors duration-300 rounded-lg">
+            <div class="max-w-6xl mx-auto p-4 lg:p-6">
                 <!-- Header -->
-                <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 mb-8 border border-gray-200 dark:border-slate-700 transition-colors duration-300">
+                <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 lg:p-8 mb-8 border border-gray-200 dark:border-slate-700 transition-colors duration-300">
                     <div class="flex items-center space-x-3 mb-4">
                         <div class="w-12 h-12 bg-indigo-600 rounded-lg flex items-center justify-center">
                             <i class="fas fa-chart-line text-white text-xl"></i>
@@ -79,134 +87,136 @@
                     </div>
                 </div>
 
-                <!-- Content will be added here -->
-    <!-- Activity Chart -->
-    <div class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-6 mb-8 transition-colors duration-300">
-        <div class="flex items-center justify-between mb-6">
-            <div>
-                <h2 class="text-xl font-semibold flex items-center space-x-2 text-gray-900 dark:text-gray-100">
-                    <i class="fas fa-chart-line text-blue-400"></i>
-                    <span>Daily Activity</span>
-                </h2>
-                <p class="text-sm text-gray-600 dark:text-gray-400">Your learning activity over the past week</p>
-            </div>
-            <div class="text-right">
-                <p class="text-sm text-gray-600 dark:text-gray-400">Total: {{ activity_data.total_activities }} activities</p>
-            </div>
-        </div>
-
-        <div class="h-64">
-            <canvas id="activityChart"></canvas>
-        </div>
-    </div>
-
-    <!-- Performance Indicators -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-6 text-center transition-colors duration-300">
-            <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-3">
-                <i class="fas fa-fire text-white"></i>
-            </div>
-            <h3 class="font-semibold mb-1 text-gray-900 dark:text-gray-100">High Activity</h3>
-            <p class="text-sm text-gray-600 dark:text-gray-400">Consistent learning pattern</p>
-        </div>
-
-        <div class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-6 text-center transition-colors duration-300">
-            <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-3">
-                <i class="fas fa-check text-white"></i>
-            </div>
-            <h3 class="font-semibold mb-1 text-gray-900 dark:text-gray-100">Consistent</h3>
-            <p class="text-sm text-gray-600 dark:text-gray-400">Regular study sessions</p>
-        </div>
-
-        <div class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-6 text-center transition-colors duration-300">
-            <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-3">
-                <i class="fas fa-trophy text-white"></i>
-            </div>
-            <h3 class="font-semibold mb-1 text-gray-900 dark:text-gray-100">Peak Performance</h3>
-            <p class="text-sm text-gray-600 dark:text-gray-400">Best learning efficiency</p>
-        </div>
-
-        <div class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-6 text-center transition-colors duration-300">
-            <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-3">
-                <i class="fas fa-trending-up text-white"></i>
-            </div>
-            <h3 class="font-semibold mb-1 text-gray-900 dark:text-gray-100">Growth Trend</h3>
-            <p class="text-sm text-gray-600 dark:text-gray-400">Improving over time</p>
-        </div>
-    </div>
-
-    <!-- Detailed Statistics -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Activity Breakdown -->
-        <div class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-6 transition-colors duration-300">
-            <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Activity Breakdown</h3>
-            <div class="space-y-4">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
-                        <span class="text-gray-900 dark:text-gray-300">Summaries Created</span>
+                <!-- Activity Chart -->
+                <div class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-4 lg:p-6 mb-8 transition-colors duration-300">
+                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
+                        <div>
+                            <h2 class="text-xl font-semibold flex items-center space-x-2 text-gray-900 dark:text-gray-100">
+                                <i class="fas fa-chart-line text-blue-400"></i>
+                                <span>Daily Activity</span>
+                            </h2>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Your learning activity over the past week</p>
+                        </div>
+                        <div class="text-left lg:text-right mt-2 lg:mt-0">
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Total: {{ activity_data.total_activities }} activities</p>
+                        </div>
                     </div>
-                    <span class="font-semibold text-gray-900 dark:text-gray-300">{{ stats.summaries }}</span>
-                </div>
-                
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
-                        <span class="text-gray-900 dark:text-gray-300">Flashcards Generated</span>
-                    </div>
-                    <span class="font-semibold text-gray-900 dark:text-gray-300">{{ stats.flashcards }}</span>
-                </div>
-                
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-3 h-3 bg-purple-500 rounded-full"></div>
-                        <span class="text-gray-900 dark:text-gray-300">Quizzes Completed</span>
-                    </div>
-                    <span class="font-semibold text-gray-900 dark:text-gray-300">{{ stats.quizzes }}</span>
-                </div>
-                
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-3 h-3 bg-orange-500 rounded-full"></div>
-                        <span class="text-gray-900 dark:text-gray-300">Questions Asked</span>
-                    </div>
-                    <span class="font-semibold text-gray-900 dark:text-gray-300">{{ stats.questions }}</span>
-                </div>
-            </div>
-        </div>
 
-        <!-- Learning Goals -->
-        <div class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-6 transition-colors duration-300">
-            <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Learning Goals</h3>
-            <div class="space-y-4">
-                <div>
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-sm text-gray-900 dark:text-gray-300">Daily Study Target</span>
-                        <span class="text-sm text-gray-600 dark:text-gray-400">{{ activity_data.total_activities }}/5</span>
-                    </div>
-                    <div class="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
-                        <div class="bg-blue-500 h-2 rounded-full" 
-                             style="width: {{ (activity_data.total_activities / 5 * 100) | round }}%"></div>
+                    <div class="h-64 lg:h-80">
+                        <canvas id="activityChart"></canvas>
                     </div>
                 </div>
-                
-                <div>
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-sm text-gray-900 dark:text-gray-300">Weekly Consistency</span>
-                        <span class="text-sm text-gray-600 dark:text-gray-400">3/7 days</span>
+
+                <!-- Performance Indicators -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
+                    <div class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-4 lg:p-6 text-center transition-colors duration-300">
+                        <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-fire text-white"></i>
+                        </div>
+                        <h3 class="font-semibold mb-1 text-gray-900 dark:text-gray-100">High Activity</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Consistent learning pattern</p>
                     </div>
-                    <div class="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
-                        <div class="bg-green-500 h-2 rounded-full" style="width: 43%"></div>
+
+                    <div class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-4 lg:p-6 text-center transition-colors duration-300">
+                        <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-check text-white"></i>
+                        </div>
+                        <h3 class="font-semibold mb-1 text-gray-900 dark:text-gray-100">Consistent</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Regular study sessions</p>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-4 lg:p-6 text-center transition-colors duration-300">
+                        <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-trophy text-white"></i>
+                        </div>
+                        <h3 class="font-semibold mb-1 text-gray-900 dark:text-gray-100">Peak Performance</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Best learning efficiency</p>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-4 lg:p-6 text-center transition-colors duration-300">
+                        <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-trending-up text-white"></i>
+                        </div>
+                        <h3 class="font-semibold mb-1 text-gray-900 dark:text-gray-100">Growth Trend</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Improving over time</p>
                     </div>
                 </div>
-                
-                <div>
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-sm text-gray-900 dark:text-gray-300">Knowledge Retention</span>
-                        <span class="text-sm text-gray-600 dark:text-gray-400">85%</span>
+
+                <!-- Detailed Statistics -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
+                    <!-- Activity Breakdown -->
+                    <div class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-4 lg:p-6 transition-colors duration-300">
+                        <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Activity Breakdown</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
+                                    <span class="text-gray-900 dark:text-gray-300">Summaries Created</span>
+                                </div>
+                                <span class="font-semibold text-gray-900 dark:text-gray-300">{{ stats.summaries }}</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                                    <span class="text-gray-900 dark:text-gray-300">Flashcards Generated</span>
+                                </div>
+                                <span class="font-semibold text-gray-900 dark:text-gray-300">{{ stats.flashcards }}</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-3 h-3 bg-purple-500 rounded-full"></div>
+                                    <span class="text-gray-900 dark:text-gray-300">Quizzes Completed</span>
+                                </div>
+                                <span class="font-semibold text-gray-900 dark:text-gray-300">{{ stats.quizzes }}</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-3 h-3 bg-orange-500 rounded-full"></div>
+                                    <span class="text-gray-900 dark:text-gray-300">Questions Asked</span>
+                                </div>
+                                <span class="font-semibold text-gray-900 dark:text-gray-300">{{ stats.questions }}</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
-                        <div class="bg-purple-500 h-2 rounded-full" style="width: 85%"></div>
+
+                    <!-- Learning Goals -->
+                    <div class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-4 lg:p-6 transition-colors duration-300">
+                        <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Learning Goals</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm text-gray-900 dark:text-gray-300">Daily Study Target</span>
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">{{ activity_data.total_activities }}/5</span>
+                                </div>
+                                <div class="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
+                                    <div class="bg-blue-500 h-2 rounded-full" 
+                                         style="width: {{ ((activity_data.total_activities / 5 * 100) if activity_data.total_activities <= 5 else 100) | round }}%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm text-gray-900 dark:text-gray-300">Weekly Consistency</span>
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">3/7 days</span>
+                                </div>
+                                <div class="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
+                                    <div class="bg-green-500 h-2 rounded-full" style="width: 43%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm text-gray-900 dark:text-gray-300">Knowledge Retention</span>
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">85%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
+                                    <div class="bg-purple-500 h-2 rounded-full" style="width: 85%"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -214,51 +224,77 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-// Activity Chart
-const ctx = document.getElementById('activityChart').getContext('2d');
-new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: {{ activity_data.labels | tojson }},
-        datasets: [{
-            label: 'Activities',
-            data: {{ activity_data.data | tojson }},
-            backgroundColor: 'rgba(59, 130, 246, 0.5)',
-            borderColor: 'rgb(59, 130, 246)',
-            borderWidth: 1
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                display: false
-            }
-        },
-        scales: {
-            y: {
-                beginAtZero: true,
-                grid: {
-                    color: 'rgba(71, 85, 105, 0.3)'
-                },
-                ticks: {
-                    color: 'rgb(148, 163, 184)'
-                }
+// Theme toggle functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const sidebar = document.querySelector('.fixed.left-0.top-0.h-full.w-64');
+    
+    // Theme management
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme === 'dark' || (!currentTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+    }
+
+    themeToggle?.addEventListener('click', function() {
+        document.documentElement.classList.toggle('dark');
+        const isDark = document.documentElement.classList.contains('dark');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    // Mobile menu functionality
+    mobileMenuToggle?.addEventListener('click', function() {
+        sidebar?.classList.toggle('hidden');
+        sidebar?.classList.toggle('block');
+    });
+
+    // Activity Chart
+    const ctx = document.getElementById('activityChart');
+    if (ctx) {
+        new Chart(ctx.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: {{ activity_data.labels | tojson }},
+                datasets: [{
+                    label: 'Activities',
+                    data: {{ activity_data.data | tojson }},
+                    backgroundColor: 'rgba(59, 130, 246, 0.5)',
+                    borderColor: 'rgb(59, 130, 246)',
+                    borderWidth: 1
+                }]
             },
-            x: {
-                grid: {
-                    color: 'rgba(71, 85, 105, 0.3)'
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
                 },
-                ticks: {
-                    color: 'rgb(148, 163, 184)'
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(71, 85, 105, 0.3)'
+                        },
+                        ticks: {
+                            color: 'rgb(148, 163, 184)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(71, 85, 105, 0.3)'
+                        },
+                        ticks: {
+                            color: 'rgb(148, 163, 184)'
+                        }
+                    }
                 }
             }
-        }
+        });
     }
 });
 </script>
-</div>
-</div>
 {% endblock %}

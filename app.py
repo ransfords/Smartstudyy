@@ -123,8 +123,10 @@ def flashcards():
 def generate_flashcards():
     """Generate flashcards from text"""
     text = request.form.get('text', '').strip()
+    card_count = int(request.form.get('card_count', 5))
+    
     if text:
-        flashcards = ai_processor.generate_flashcards(text)
+        flashcards = ai_processor.generate_flashcards(text, card_count)
         session['current_flashcards'] = flashcards
         session['flashcards_count'] = session.get('flashcards_count', 0) + len(flashcards)
 

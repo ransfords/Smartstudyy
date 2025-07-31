@@ -166,7 +166,7 @@ class AIProcessor:
         else:
             return "That's an interesting question! I'm here to help you understand various topics in science, mathematics, programming, and more. Could you provide more specific details about what you'd like to learn? For example, are you looking for a definition, an explanation of a process, or help with a specific problem?"
 
-    def generate_flashcards(self, text: str) -> List[Dict[str, str]]:
+    def generate_flashcards(self, text: str, card_count: int = 5) -> List[Dict[str, str]]:
         """
         Enhanced flashcard generation with better content extraction
         """
@@ -242,26 +242,29 @@ class AIProcessor:
                     "back": " ".join(words[mid_point:])
                 })
 
-        return flashcards[:6]  # Return max 6 cards
+        return flashcards[:card_count]  # Return requested number of cards
 
-    def get_activity_data(self) -> List[Dict[str, Any]]:
+    def get_activity_data(self) -> Dict[str, Any]:
         """Generate mock activity data for progress tracking"""
         import random
         from datetime import datetime, timedelta
 
-        activities = []
-        activity_types = ['summary', 'flashcard', 'quiz', 'chat']
+        labels = []
+        data = []
+        total = 0
         
-        for i in range(30):
-            date = datetime.now() - timedelta(days=i)
+        for i in range(7):
+            date = datetime.now() - timedelta(days=6-i)
             activity_count = random.randint(0, 8)
-            activities.append({
-                'date': date.strftime('%Y-%m-%d'),
-                'count': activity_count,
-                'type': random.choice(activity_types)
-            })
+            labels.append(date.strftime('%a'))
+            data.append(activity_count)
+            total += activity_count
         
-        return list(reversed(activities))
+        return {
+            'labels': labels,
+            'data': data,
+            'total_activities': total
+        } list(reversed(activities))
 
     def generate_quiz(self, topic: str, difficulty: str = "medium") -> dict:
         """Generate a comprehensive quiz based on topic and difficulty"""
