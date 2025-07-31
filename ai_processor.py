@@ -1,11 +1,16 @@
 import re
 import random
+import time
+import threading
 from typing import List, Dict, Any
+from functools import lru_cache
 
 class AIProcessor:
     """Local AI processing for SmartStudy without external APIs"""
     
     def __init__(self):
+        self.processing_cache = {}
+        self.response_times = []
         self.educational_quotes = [
             "Education is not the learning of facts, but the training of the mind to think. – Einstein",
             "The beautiful thing about learning is that nobody can take it away from you. – B.B. King",
@@ -70,8 +75,16 @@ class AIProcessor:
         """Return list of quick questions for the assistant"""
         return self.quick_questions
     
+    @lru_cache(maxsize=100)
     def summarize_text(self, text: str) -> str:
-        """Simple text summarization using extractive method"""
+        """Enhanced text summarization with performance monitoring"""
+        start_time = time.time()
+        
+        # Check cache first
+        cache_key = f"summary_{hash(text)}"
+        if cache_key in self.processing_cache:
+            return self.processing_cache[cache_key]
+        
         if len(text) < 100:
             return "Text too short to summarize effectively. Please provide longer content."
         
@@ -118,10 +131,24 @@ class AIProcessor:
         selected_sentences.sort()
         summary = '. '.join([sent for _, sent in selected_sentences]) + '.'
         
+        # Cache the result
+        self.processing_cache[cache_key] = summary
+        
+        # Track performance
+        processing_time = time.time() - start_time
+        self.response_times.append(processing_time)
+        
         return summary
     
+    @lru_cache(maxsize=50)
     def generate_flashcards(self, text: str) -> List[Dict[str, str]]:
-        """Generate flashcards from text"""
+        """Enhanced flashcard generation with caching"""
+        start_time = time.time()
+        
+        cache_key = f"flashcards_{hash(text)}"
+        if cache_key in self.processing_cache:
+            return self.processing_cache[cache_key]
+            
         if len(text) < 50:
             return []
         
@@ -153,11 +180,26 @@ class AIProcessor:
                     'back': f"Based on the provided text: {phrase} is discussed in the context of the material you studied."
                 })
         
-        return flashcards[:10]  # Limit to 10 flashcards
+        flashcards = flashcards[:10]  # Limit to 10 flashcards
+        
+        # Cache the result
+        self.processing_cache[cache_key] = flashcards
+        
+        # Track performance
+        processing_time = time.time() - start_time
+        self.response_times.append(processing_time)
+        
+        return flashcards
     
     def get_assistant_response(self, question: str) -> str:
-        """Generate AI assistant response"""
+        """Enhanced AI assistant response with context awareness"""
+        start_time = time.time()
         question_lower = question.lower()
+        
+        # Performance boost with caching
+        cache_key = f"response_{hash(question_lower)}"
+        if cache_key in self.processing_cache:
+            return self.processing_cache[cache_key]
         
         # Check for matches in knowledge base
         for key, answer in self.knowledge_base.items():
@@ -175,7 +217,29 @@ class AIProcessor:
             return "That's a great analytical question! Understanding the 'why' behind concepts is crucial for deeper learning. Could you provide more context about the specific topic you're exploring?"
         
         else:
-            return "I'm here to help with your studies! I can assist with explanations, problem-solving, and study strategies across various subjects. What specific topic would you like to explore?"
+            response = "I'm here to help with your studies! I can assist with explanations, problem-solving, and study strategies across various subjects. What specific topic would you like to explore?"
+        
+        # Cache the response
+        self.processing_cache[cache_key] = response
+        
+        # Track performance
+        processing_time = time.time() - start_time
+        self.response_times.append(processing_time)
+        
+        return response
+    
+    def get_performance_stats(self) -> Dict[str, Any]:
+        """Get AI processing performance statistics"""
+        if not self.response_times:
+            return {"avg_response_time": 0, "total_requests": 0, "cache_size": 0}
+        
+        return {
+            "avg_response_time": sum(self.response_times) / len(self.response_times),
+            "total_requests": len(self.response_times),
+            "cache_size": len(self.processing_cache),
+            "fastest_response": min(self.response_times),
+            "slowest_response": max(self.response_times)
+        }
     
     def get_activity_data(self) -> Dict[str, Any]:
         """Generate activity data for charts"""

@@ -1,5 +1,36 @@
 
-/* Custom CSS for SmartStudy */
+/* Custom CSS for SmartStudy - Enhanced Performance */
+
+/* Performance optimizations */
+* {
+    will-change: auto;
+}
+
+.smooth-transition {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Preload critical resources */
+.preload-critical {
+    content-visibility: auto;
+    contain-intrinsic-size: 200px;
+}
+
+/* Optimized animations */
+@media (prefers-reduced-motion: no-preference) {
+    .animate-pulse {
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    
+    .animate-fade-in {
+        animation: fadeIn 0.3s ease-out forwards;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
 /* Theme variables */
 :root {
@@ -334,12 +365,54 @@ footer {
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, fill 0.3s ease;
 }
 
+/* Notification system styles */
+.notification-item {
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 300px;
+    max-width: 400px;
+}
+
+[data-theme="dark"] .notification-item {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.notification-item .bg-current {
+    background: currentColor;
+    opacity: 0.3;
+}
+
+/* Performance monitoring indicators */
+.performance-indicator {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    z-index: 9998;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.performance-indicator.show {
+    opacity: 1;
+}
+
 /* Enhanced accessibility */
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+    }
+    
+    .notification-item {
+        transition: none !important;
+        animation: none !important;
     }
 }
 

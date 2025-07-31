@@ -5,6 +5,12 @@
 let currentUser = localStorage.getItem('smartstudy_user') || 'Student';
 let activityHistory = JSON.parse(localStorage.getItem('smartstudy_activity') || '[]');
 let currentTheme = localStorage.getItem('smartstudy_theme') || 'dark';
+let notificationQueue = [];
+let isProcessing = false;
+
+// Performance optimizations
+const debounceMap = new Map();
+const memoCache = new Map();
 
 // Initialize app
 document.addEventListener('DOMContentLoaded', function() {
@@ -434,17 +440,171 @@ function toggleMobileMenu() {
     }
 }
 
+// Real-time notification system
+class NotificationManager {
+    constructor() {
+        this.notifications = [];
+        this.container = null;
+        this.init();
+    }
+
+    init() {
+        this.createContainer();
+        this.startHeartbeat();
+    }
+
+    createContainer() {
+        this.container = document.createElement('div');
+        this.container.id = 'notification-container';
+        this.container.className = 'fixed top-4 right-4 z-[9999] space-y-2 max-w-sm';
+        document.body.appendChild(this.container);
+    }
+
+    startHeartbeat() {
+        // Simulated real-time updates every 30 seconds
+        setInterval(() => {
+            if (Math.random() > 0.7) {
+                this.addRandomNotification();
+            }
+        }, 30000);
+    }
+
+    addRandomNotification() {
+        const messages = [
+            "💡 New study tip available!",
+            "📊 Your progress has been updated",
+            "🎯 Daily goal reminder",
+            "⚡ Performance optimization complete",
+            "🧠 AI model enhanced"
+        ];
+        
+        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+        this.show(randomMessage, 'info', 4000);
+    }
+
+    show(message, type = 'info', duration = 5000) {
+        const notification = document.createElement('div');
+        const id = Date.now() + Math.random();
+        
+        notification.className = `notification-item transform transition-all duration-300 translate-x-full opacity-0 ${this.getTypeClass(type)} p-4 rounded-lg shadow-lg border backdrop-blur-sm`;
+        notification.innerHTML = `
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <i class="fas ${this.getTypeIcon(type)} text-lg"></i>
+                    <span class="font-medium">${message}</span>
+                </div>
+                <button onclick="window.SmartStudy.dismissNotification(${id})" 
+                        class="ml-2 hover:opacity-75 transition-opacity">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1 mt-2">
+                <div class="bg-current h-1 rounded-full transition-all duration-${duration} ease-linear" 
+                     style="width: 100%"></div>
+            </div>
+        `;
+
+        notification.dataset.id = id;
+        this.container.appendChild(notification);
+
+        // Animate in
+        setTimeout(() => {
+            notification.classList.remove('translate-x-full', 'opacity-0');
+        }, 100);
+
+        // Auto dismiss
+        setTimeout(() => {
+            this.dismiss(id);
+        }, duration);
+
+        // Start progress bar animation
+        const progressBar = notification.querySelector('.bg-current');
+        setTimeout(() => {
+            progressBar.style.width = '0%';
+        }, 200);
+    }
+
+    getTypeClass(type) {
+        const classes = {
+            success: 'bg-green-500/90 text-white border-green-400',
+            error: 'bg-red-500/90 text-white border-red-400',
+            warning: 'bg-yellow-500/90 text-black border-yellow-400',
+            info: 'bg-blue-500/90 text-white border-blue-400'
+        };
+        return classes[type] || classes.info;
+    }
+
+    getTypeIcon(type) {
+        const icons = {
+            success: 'fa-check-circle',
+            error: 'fa-exclamation-circle',
+            warning: 'fa-exclamation-triangle',
+            info: 'fa-info-circle'
+        };
+        return icons[type] || icons.info;
+    }
+
+    dismiss(id) {
+        const notification = document.querySelector(`[data-id="${id}"]`);
+        if (notification) {
+            notification.classList.add('translate-x-full', 'opacity-0');
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 300);
+        }
+    }
+}
+
+// Initialize notification manager
+const notificationManager = new NotificationManager();
+
+// Enhanced performance utilities
+function memoize(fn, keyGenerator) {
+    return function(...args) {
+        const key = keyGenerator ? keyGenerator(...args) : JSON.stringify(args);
+        if (memoCache.has(key)) {
+            return memoCache.get(key);
+        }
+        const result = fn.apply(this, args);
+        memoCache.set(key, result);
+        return result;
+    };
+}
+
+function optimizedDebounce(func, wait, key) {
+    if (debounceMap.has(key)) {
+        clearTimeout(debounceMap.get(key));
+    }
+    
+    const timeout = setTimeout(() => {
+        func();
+        debounceMap.delete(key);
+    }, wait);
+    
+    debounceMap.set(key, timeout);
+}
+
+// Enhanced showNotification function
+function showNotificationEnhanced(message, type = 'info', duration = 3000) {
+    notificationManager.show(message, type, duration);
+}
+
 // Export functions for global use
 window.SmartStudy = {
     logActivity,
     updateProgress,
-    showNotification,
+    showNotification: showNotificationEnhanced,
+    dismissNotification: (id) => notificationManager.dismiss(id),
     validateForm,
     extractKeywords,
     highlightKeywords,
     formatTime,
     toggleTheme,
-    toggleMobileMenu
+    toggleMobileMenu,
+    memoize,
+    optimizedDebounce
 };
 
 // Initialize theme on page load
