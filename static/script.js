@@ -1,8 +1,10 @@
+
 // SmartStudy JavaScript functionality
 
 // Global variables
 let currentUser = localStorage.getItem('smartstudy_user') || 'Student';
 let activityHistory = JSON.parse(localStorage.getItem('smartstudy_activity') || '[]');
+let currentTheme = localStorage.getItem('smartstudy_theme') || 'dark';
 
 // Initialize app
 document.addEventListener('DOMContentLoaded', function() {
@@ -10,6 +12,12 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initializeApp() {
+    // Load theme
+    loadTheme();
+    
+    // Initialize theme toggle
+    initializeThemeToggle();
+    
     // Load user preferences
     loadUserPreferences();
     
@@ -21,12 +29,76 @@ function initializeApp() {
     
     // Keyboard shortcuts
     setupKeyboardShortcuts();
+    
+    // Initialize search if available
+    setupSearch();
+}
+
+// Theme management
+function loadTheme() {
+    const theme = localStorage.getItem('smartstudy_theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.className = theme === 'dark' ? 'dark' : '';
+    currentTheme = theme;
+    updateThemeToggleIcon();
+}
+
+function toggleTheme() {
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    currentTheme = newTheme;
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    document.documentElement.className = newTheme === 'dark' ? 'dark' : '';
+    
+    localStorage.setItem('smartstudy_theme', newTheme);
+    updateThemeToggleIcon();
+    
+    // Add a smooth transition effect
+    document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+    setTimeout(() => {
+        document.body.style.transition = '';
+    }, 300);
+    
+    logActivity('theme_change', `Switched to ${newTheme} mode`);
+}
+
+function updateThemeToggleIcon() {
+    const toggleButton = document.getElementById('theme-toggle');
+    if (toggleButton) {
+        const sunIcon = toggleButton.querySelector('.fa-sun');
+        const moonIcon = toggleButton.querySelector('.fa-moon');
+        
+        if (currentTheme === 'dark') {
+            if (sunIcon) sunIcon.classList.add('hidden');
+            if (moonIcon) moonIcon.classList.remove('hidden');
+        } else {
+            if (sunIcon) sunIcon.classList.remove('hidden');
+            if (moonIcon) moonIcon.classList.add('hidden');
+        }
+    }
+}
+
+function initializeThemeToggle() {
+    const toggleButton = document.getElementById('theme-toggle');
+    if (toggleButton) {
+        toggleButton.addEventListener('click', toggleTheme);
+    }
 }
 
 // User preferences
 function loadUserPreferences() {
-    const theme = localStorage.getItem('smartstudy_theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', theme);
+    const savedUser = localStorage.getItem('smartstudy_user');
+    if (savedUser) {
+        currentUser = savedUser;
+        updateUserDisplay();
+    }
+}
+
+function updateUserDisplay() {
+    const userElements = document.querySelectorAll('[data-user-name]');
+    userElements.forEach(element => {
+        element.textContent = currentUser;
+    });
 }
 
 function saveUserPreference(key, value) {
@@ -59,10 +131,10 @@ function updateActivityDisplay() {
     if (activityElement) {
         const recentActivities = activityHistory.slice(0, 10);
         activityElement.innerHTML = recentActivities.map(activity => `
-            <div class="activity-item p-3 bg-slate-700 rounded-lg">
+            <div class="activity-item p-3 bg-gray-100 dark:bg-slate-700 rounded-lg transition-colors">
                 <div class="flex items-center justify-between">
-                    <span class="text-sm">${activity.details}</span>
-                    <span class="text-xs text-gray-400">${formatTime(activity.timestamp)}</span>
+                    <span class="text-sm text-gray-900 dark:text-white">${activity.details}</span>
+                    <span class="text-xs text-gray-500 dark:text-gray-400">${formatTime(activity.timestamp)}</span>
                 </div>
             </div>
         `).join('');
@@ -91,7 +163,7 @@ function highlightKeywords(text, keywords) {
     let highlightedText = text;
     keywords.forEach(keyword => {
         const regex = new RegExp(`\\b${keyword}\\b`, 'gi');
-        highlightedText = highlightedText.replace(regex, `<mark class="bg-yellow-300 text-black px-1 rounded">${keyword}</mark>`);
+        highlightedText = highlightedText.replace(regex, `<mark class="bg-yellow-300 dark:bg-yellow-600 text-black dark:text-white px-1 rounded">${keyword}</mark>`);
     });
     return highlightedText;
 }
@@ -148,12 +220,13 @@ function loadFormData(formId) {
 
 function showSaveIndicator() {
     const indicator = document.createElement('div');
-    indicator.className = 'fixed top-4 right-4 bg-green-600 text-white px-3 py-1 rounded-lg text-sm z-50';
+    indicator.className = 'fixed top-4 right-4 bg-green-600 text-white px-3 py-1 rounded-lg text-sm z-50 transition-all';
     indicator.textContent = 'Draft saved';
     document.body.appendChild(indicator);
     
     setTimeout(() => {
-        indicator.remove();
+        indicator.style.opacity = '0';
+        setTimeout(() => indicator.remove(), 300);
     }, 2000);
 }
 
@@ -178,6 +251,12 @@ function setupKeyboardShortcuts() {
             }
         }
         
+        // Ctrl/Cmd + D to toggle theme
+        if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
+            e.preventDefault();
+            toggleTheme();
+        }
+        
         // Escape to close modals
         if (e.key === 'Escape') {
             const modal = document.querySelector('.modal.active, .fixed.flex');
@@ -200,7 +279,7 @@ function initializeTooltips() {
 
 function showTooltip(e) {
     const tooltip = document.createElement('div');
-    tooltip.className = 'absolute bg-slate-900 text-white text-xs px-2 py-1 rounded shadow-lg z-50 pointer-events-none';
+    tooltip.className = 'absolute bg-gray-900 dark:bg-slate-800 text-white text-xs px-2 py-1 rounded shadow-lg z-50 pointer-events-none';
     tooltip.textContent = e.target.getAttribute('data-tooltip');
     
     document.body.appendChild(tooltip);
@@ -237,7 +316,7 @@ function updateProgress(type, increment = 1) {
 // Notification system
 function showNotification(message, type = 'info', duration = 3000) {
     const notification = document.createElement('div');
-    notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 ${getNotificationClass(type)}`;
+    notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 transition-all ${getNotificationClass(type)}`;
     notification.innerHTML = `
         <div class="flex items-center space-x-2">
             <i class="fas ${getNotificationIcon(type)}"></i>
@@ -252,7 +331,8 @@ function showNotification(message, type = 'info', duration = 3000) {
     
     setTimeout(() => {
         if (notification.parentElement) {
-            notification.remove();
+            notification.style.opacity = '0';
+            setTimeout(() => notification.remove(), 300);
         }
     }, duration);
 }
@@ -339,6 +419,21 @@ function debounce(func, wait) {
     };
 }
 
+// Mobile menu toggle
+function toggleMobileMenu() {
+    const sidebar = document.querySelector('.fixed.w-64');
+    const overlay = document.getElementById('mobile-overlay');
+    
+    if (sidebar) {
+        sidebar.classList.toggle('translate-x-0');
+        sidebar.classList.toggle('-translate-x-full');
+    }
+    
+    if (overlay) {
+        overlay.classList.toggle('hidden');
+    }
+}
+
 // Export functions for global use
 window.SmartStudy = {
     logActivity,
@@ -347,5 +442,10 @@ window.SmartStudy = {
     validateForm,
     extractKeywords,
     highlightKeywords,
-    formatTime
+    formatTime,
+    toggleTheme,
+    toggleMobileMenu
 };
+
+// Initialize theme on page load
+document.addEventListener('DOMContentLoaded', loadTheme);

@@ -216,5 +216,81 @@ def about():
     """Meet the developer page"""
     return render_template('about.html')
 
+@app.route('/signin', methods=['GET', 'POST'])
+def signin():
+    """Sign in page"""
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        remember = request.form.get('remember')
+        
+        # Simple authentication (in production, use proper password hashing)
+        if email and password:
+            session['user_email'] = email
+            session['user_name'] = email.split('@')[0].title()
+            session['is_authenticated'] = True
+            
+            if remember:
+                session.permanent = True
+            
+            return redirect(url_for('dashboard'))
+        else:
+            return render_template('signin.html', error="Invalid email or password")
+    
+    return render_template('signin.html')
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    """Sign up page"""
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
+        terms = request.form.get('terms')
+        
+        # Simple validation
+        if not all([name, email, password, confirm_password, terms]):
+            return render_template('signup.html', error="All fields are required")
+        
+        if password != confirm_password:
+            return render_template('signup.html', error="Passwords do not match")
+        
+        if len(password) < 8:
+            return render_template('signup.html', error="Password must be at least 8 characters")
+        
+        # Create account (in production, hash password and store in database)
+        session['user_email'] = email
+        session['user_name'] = name
+        session['is_authenticated'] = True
+        
+        return redirect(url_for('dashboard'))
+    
+    return render_template('signup.html')
+
+@app.route('/logout')
+def logout():
+    """Logout user"""
+    session.clear()
+    return redirect(url_for('index'))
+
+@app.route('/profile')
+def profile():
+    """User profile page"""
+    if not session.get('is_authenticated'):
+        return redirect(url_for('signin'))
+    
+    user_data = {
+        'name': session.get('user_name', 'User'),
+        'email': session.get('user_email', ''),
+        'stats': {
+            'summaries': session.get('summaries_count', 0),
+            'flashcards': session.get('flashcards_count', 0),
+            'quizzes': session.get('quizzes_count', 0),
+            'questions': session.get('questions_count', 0)
+        }
+    }
+    return render_template('profile.html', user=user_data)
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

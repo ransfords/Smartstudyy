@@ -1,4 +1,33 @@
+
 /* Custom CSS for SmartStudy */
+
+/* Theme variables */
+:root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-tertiary: #f1f5f9;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+    --accent-primary: #8b5cf6;
+    --accent-secondary: #06b6d4;
+}
+
+[data-theme="dark"] {
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-tertiary: #334155;
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --border-color: #475569;
+    --accent-primary: #a855f7;
+    --accent-secondary: #0891b2;
+}
+
+/* Base styles */
+.theme-transition {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
 
 /* Flashcard 3D Effects */
 .preserve-3d {
@@ -22,21 +51,34 @@
     transition: all 0.3s ease;
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar for light mode */
 ::-webkit-scrollbar {
     width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: rgb(51, 65, 85);
+    background: var(--bg-secondary);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgb(100, 116, 139);
+    background: var(--text-secondary);
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-primary);
+}
+
+/* Dark mode scrollbar */
+[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: rgb(51, 65, 85);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: rgb(100, 116, 139);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
     background: rgb(148, 163, 184);
 }
 
@@ -78,6 +120,10 @@
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
+[data-theme="dark"] .card-hover:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
 /* Loading states */
 .loading {
     opacity: 0.6;
@@ -99,6 +145,10 @@
 .btn-primary:hover {
     transform: translateY(-1px);
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .btn-primary:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
 }
 
 /* Chat message styles */
@@ -143,6 +193,11 @@
     background: linear-gradient(135deg, #1e293b 0%, #4c1d95 50%, #1e293b 100%);
 }
 
+/* Light mode gradient */
+.light-gradient {
+    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 50%, #f8fafc 100%);
+}
+
 /* Glass morphism effects */
 .glass {
     background: rgba(255, 255, 255, 0.1);
@@ -150,9 +205,18 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+[data-theme="dark"] .glass {
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 /* Typography enhancements */
 .text-shadow {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 /* Interactive elements */
@@ -189,8 +253,8 @@
 .spinner {
     width: 20px;
     height: 20px;
-    border: 2px solid #f3f3f3;
-    border-top: 2px solid #3498db;
+    border: 2px solid var(--bg-tertiary);
+    border-top: 2px solid var(--accent-primary);
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -198,4 +262,95 @@
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* Form styles */
+.form-input {
+    background-color: var(--bg-primary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.form-input:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+/* Button variants */
+.btn-outline {
+    border: 2px solid var(--accent-primary);
+    color: var(--accent-primary);
+    background: transparent;
+}
+
+.btn-outline:hover {
+    background: var(--accent-primary);
+    color: white;
+}
+
+/* Theme toggle button */
+#theme-toggle {
+    position: relative;
+    overflow: hidden;
+}
+
+#theme-toggle i {
+    transition: transform 0.3s ease;
+}
+
+#theme-toggle:hover i {
+    transform: scale(1.1);
+}
+
+/* Modal styles */
+.modal {
+    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .modal {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+/* Auth form styles */
+.auth-form {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .auth-form {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* Footer styles */
+footer {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+}
+
+/* Smooth theme transitions */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, fill 0.3s ease;
+}
+
+/* Enhanced accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Print styles */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    
+    body {
+        background: white !important;
+        color: black !important;
+    }
 }
