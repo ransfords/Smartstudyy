@@ -14,14 +14,13 @@
         </div>
         
         <div class="flex items-center space-x-6">
-            <button class="p-2 hover:bg-slate-800 rounded-lg">
-                <i class="fas fa-sun text-gray-400"></i>
-            </button>
+            <a href="{{ url_for('dashboard') }}" class="text-gray-300 hover:text-white">Dashboard</a>
+            <a href="{{ url_for('assistant') }}" class="text-gray-300 hover:text-white">AI Assistant</a>
+            <a href="{{ url_for('summarizer') }}" class="text-gray-300 hover:text-white">Summarizer</a>
+            <a href="{{ url_for('flashcards') }}" class="text-gray-300 hover:text-white">Flashcards</a>
+            <a href="{{ url_for('quiz') }}" class="text-gray-300 hover:text-white">Quiz</a>
+            <a href="{{ url_for('history') }}" class="text-gray-300 hover:text-white">History</a>
             <a href="{{ url_for('about') }}" class="text-gray-300 hover:text-white">About</a>
-            <button class="text-gray-300 hover:text-white">Login</button>
-            <button class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg font-medium transition-colors">
-                Sign Up
-            </button>
         </div>
     </div>
 </nav>
@@ -29,9 +28,13 @@
 <!-- Hero Section -->
 <div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center text-center px-6">
     <div class="max-w-4xl mx-auto">
-        <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-            Study Smarter with AI
+        <h1 class="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            SmartStudy
         </h1>
+        
+        <h2 class="text-2xl md:text-3xl font-semibold text-white mb-6">
+            Study Smarter, Not Harder
+        </h2>
         
         <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
             Transform your notes into summaries, flashcards, and quizzes instantly. Powered by advanced AI to make learning effortless.

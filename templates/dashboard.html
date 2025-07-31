@@ -42,10 +42,22 @@
                 <span>Create Flashcards</span>
             </a>
             
+            <a href="{{ url_for('quiz') }}" 
+               class="nav-link flex items-center space-x-3 p-3 rounded-lg transition-colors hover:bg-slate-700">
+                <i class="fas fa-question-circle text-lg"></i>
+                <span>Interactive Quiz</span>
+            </a>
+            
             <a href="{{ url_for('progress') }}" 
                class="nav-link flex items-center space-x-3 p-3 rounded-lg transition-colors hover:bg-slate-700">
                 <i class="fas fa-chart-line text-lg"></i>
                 <span>Progress Tracker</span>
+            </a>
+            
+            <a href="{{ url_for('history') }}" 
+               class="nav-link flex items-center space-x-3 p-3 rounded-lg transition-colors hover:bg-slate-700">
+                <i class="fas fa-history text-lg"></i>
+                <span>Recent History</span>
             </a>
         </nav>
     </div>
@@ -142,12 +154,12 @@
         </div>
 
         <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:border-purple-500 transition-colors cursor-pointer"
-             onclick="window.location.href='{{ url_for('assistant') }}'">
+             onclick="window.location.href='{{ url_for('quiz') }}'">
             <div class="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mb-4">
                 <i class="fas fa-question-circle text-white text-xl"></i>
             </div>
-            <h3 class="text-xl font-semibold mb-2">Generate Quiz</h3>
-            <p class="text-gray-400">Create practice questions from your notes</p>
+            <h3 class="text-xl font-semibold mb-2">Interactive Quiz</h3>
+            <p class="text-gray-400">Test your knowledge with subject-based quizzes</p>
         </div>
 
         <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:border-green-500 transition-colors cursor-pointer"

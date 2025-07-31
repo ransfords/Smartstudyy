@@ -33,37 +33,45 @@ Preferred communication style: Simple, everyday language.
 
 ### AI Processing Engine (ai_processor.py)
 - **Purpose**: Provides local AI functionality without external API dependencies
-- **Features**: Text summarization, educational quotes, quick questions, knowledge base
-- **Implementation**: Rule-based text processing with extractive summarization
-- **Rationale**: Eliminates API costs and privacy concerns while providing immediate responses
+- **Features**: Text summarization, educational quotes, quick questions, comprehensive knowledge base, quiz generation
+- **Implementation**: Rule-based text processing with extractive summarization and interactive quiz system
+- **Quiz System**: Multi-subject quizzes (Science, Math, Programming) with difficulty levels and detailed explanations
+- **Knowledge Base**: Expanded coverage including algebra, geometry, calculus, chemistry, biology, programming concepts, and literature
+- **Rationale**: Eliminates API costs and privacy concerns while providing immediate responses and assessments
 
 ### Web Application (app.py)
 - **Purpose**: Main Flask application handling routing and user interactions
-- **Routes**: Landing page, dashboard, AI assistant, summarizer, flashcards
-- **Session Management**: Tracks user statistics and activity history
-- **Template Rendering**: Serves dynamic HTML pages with user data
+- **Routes**: Landing page, dashboard, AI assistant, summarizer, flashcards, interactive quiz, activity history
+- **Session Management**: Tracks user statistics, activity history with timestamps, and quiz results
+- **History Tracking**: Comprehensive logging of summaries, flashcards, and chat conversations
+- **Quiz Management**: Handles quiz generation, submission, scoring, and detailed feedback
+- **Template Rendering**: Serves dynamic HTML pages with user data and interactive features
 
 ### Frontend Components
-- **Landing Page**: Hero section with rotating educational quotes
-- **Dashboard**: Overview with activity statistics and navigation
-- **AI Assistant**: Chat interface with conversation history
-- **Summarizer**: Text input/output interface for note processing
-- **Flashcard Creator**: Interactive card-based learning tool
+- **Landing Page**: Hero section with rotating educational quotes and comprehensive navigation
+- **Dashboard**: Overview with activity statistics and feature cards for all tools
+- **AI Assistant**: Chat interface with conversation history and quick questions
+- **Summarizer**: Text input/output interface for note processing with history tracking
+- **Flashcard Creator**: Interactive card-based learning tool with history tracking
+- **Interactive Quiz**: Multi-subject quiz system with scoring and explanations
+- **Activity History**: Comprehensive tracking of all user activities with timestamps
 
 ## Data Flow
 
 ### User Interaction Flow
 1. **Landing Page**: User views rotating quotes and accesses main features
 2. **Dashboard**: Central hub showing statistics and quick access to tools
-3. **AI Tools**: Users interact with summarizer, flashcards, or assistant
-4. **Session Tracking**: Activities are logged and statistics are updated
-5. **Local Storage**: Client preferences and history are persisted
+3. **AI Tools**: Users interact with summarizer, flashcards, quiz, or assistant
+4. **Session Tracking**: Activities are logged with timestamps and statistics are updated
+5. **History Management**: Detailed activity history with filtering and clearing options
+6. **Quiz System**: Interactive assessments with immediate feedback and explanations
 
 ### AI Processing Flow
-1. **Input Reception**: User submits text through web forms
-2. **Local Processing**: AIProcessor handles text analysis using built-in algorithms
-3. **Response Generation**: Results are formatted and returned to user
-4. **Activity Logging**: Actions are recorded in session for statistics
+1. **Input Reception**: User submits text through web forms or quiz selections
+2. **Local Processing**: AIProcessor handles text analysis, quiz generation using built-in algorithms
+3. **Response Generation**: Results are formatted and returned with explanations
+4. **Activity Logging**: Actions are recorded in session with timestamps for comprehensive history
+5. **Knowledge Base**: Comprehensive coverage of Science, Math, Programming, and English topics
 
 ## External Dependencies
 

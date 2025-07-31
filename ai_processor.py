@@ -7,13 +7,15 @@ class AIProcessor:
     
     def __init__(self):
         self.educational_quotes = [
-            "Education is not the learning of facts, but the training of the mind to think. – Albert Einstein",
+            "Education is not the learning of facts, but the training of the mind to think. – Einstein",
             "The beautiful thing about learning is that nobody can take it away from you. – B.B. King",
             "Your education is a dress rehearsal for a life that is yours to lead. – Nora Ephron",
             "Education is the most powerful weapon which you can use to change the world. – Nelson Mandela",
-            "The more that you read, the more things you will know. The more that you learn, the more places you'll go. – Dr. Seuss",
             "Live as if you were to die tomorrow. Learn as if you were to live forever. – Mahatma Gandhi",
-            "Tell me and I forget, teach me and I may remember, involve me and I learn. – Benjamin Franklin",
+            "An investment in knowledge pays the best interest. – Benjamin Franklin",
+            "The expert in anything was once a beginner. – Helen Hayes",
+            "Learning never exhausts the mind. – Leonardo da Vinci",
+            "Education is what remains after one has forgotten what one has learned in school. – Einstein",
             "The capacity to learn is a gift; the ability to learn is a skill; the willingness to learn is a choice. – Brian Herbert"
         ]
         
@@ -23,16 +25,41 @@ class AIProcessor:
             "How do I solve quadratic equations?",
             "Explain the water cycle",
             "What is the theory of relativity?",
-            "How does DNA replication work?"
+            "How does DNA replication work?",
+            "What are the fundamentals of programming?",
+            "Explain Shakespeare's writing style",
+            "How do chemical reactions work?",
+            "What is calculus used for?",
+            "Explain the scientific method",
+            "How does the human brain work?"
         ]
         
         self.knowledge_base = {
+            # Science
             "photosynthesis": "Photosynthesis is the process by which plants use sunlight, water, and carbon dioxide to create oxygen and energy in the form of sugar. It occurs in the chloroplasts of plant cells and involves two main stages: light-dependent reactions and the Calvin cycle.",
-            "machine learning": "Machine learning is a subset of artificial intelligence that enables computers to learn and improve from experience without being explicitly programmed. It uses algorithms to analyze data, identify patterns, and make decisions with minimal human intervention.",
-            "quadratic equations": "Quadratic equations are polynomial equations of degree 2, typically in the form ax² + bx + c = 0. They can be solved using the quadratic formula: x = (-b ± √(b²-4ac)) / 2a, by factoring, or by completing the square.",
             "water cycle": "The water cycle is the continuous movement of water on, above, and below Earth's surface. It includes processes like evaporation, condensation, precipitation, and collection, driven by solar energy and gravity.",
             "theory of relativity": "Einstein's theory of relativity consists of special relativity (dealing with objects moving at constant speeds) and general relativity (dealing with gravity). It shows that space and time are interconnected and relative to the observer's motion.",
-            "dna replication": "DNA replication is the process by which DNA makes a copy of itself. It involves unwinding the double helix, separating the strands, and using each strand as a template to create complementary new strands."
+            "dna replication": "DNA replication is the process by which DNA makes a copy of itself. It involves unwinding the double helix, separating the strands, and using each strand as a template to create complementary new strands.",
+            "chemical reactions": "Chemical reactions involve the breaking and forming of bonds between atoms to create new substances. They follow conservation laws and can be classified as synthesis, decomposition, single or double replacement reactions.",
+            "scientific method": "The scientific method is a systematic approach to understanding the natural world through observation, hypothesis formation, experimentation, analysis, and conclusion. It ensures reliable and reproducible results.",
+            "human brain": "The human brain contains approximately 86 billion neurons that communicate through electrical and chemical signals. It's divided into regions like the cerebrum, cerebellum, and brainstem, each with specialized functions.",
+            
+            # Mathematics
+            "quadratic equations": "Quadratic equations are polynomial equations of degree 2, typically in the form ax² + bx + c = 0. They can be solved using the quadratic formula: x = (-b ± √(b²-4ac)) / 2a, by factoring, or by completing the square.",
+            "calculus": "Calculus is the mathematical study of continuous change. It includes differential calculus (rates of change and slopes) and integral calculus (accumulation of quantities and areas under curves). It's used in physics, engineering, economics, and many other fields.",
+            "algebra": "Algebra is a branch of mathematics dealing with symbols and the rules for manipulating those symbols. It includes solving equations, working with functions, and understanding mathematical relationships.",
+            "geometry": "Geometry is the branch of mathematics concerned with questions of shape, size, relative position of figures, and the properties of space. It includes plane geometry (2D) and solid geometry (3D).",
+            
+            # Programming
+            "machine learning": "Machine learning is a subset of artificial intelligence that enables computers to learn and improve from experience without being explicitly programmed. It uses algorithms to analyze data, identify patterns, and make decisions with minimal human intervention.",
+            "programming fundamentals": "Programming fundamentals include variables, data types, control structures (loops, conditionals), functions, and algorithms. These building blocks allow developers to create instructions for computers to execute.",
+            "algorithms": "Algorithms are step-by-step procedures for solving problems or performing computations. They form the foundation of computer programming and are evaluated based on efficiency, correctness, and clarity.",
+            "data structures": "Data structures are ways of organizing and storing data in computers so it can be accessed and modified efficiently. Common examples include arrays, linked lists, stacks, queues, trees, and graphs.",
+            
+            # English & Literature
+            "shakespeare": "William Shakespeare was an English playwright and poet, widely regarded as the greatest writer in the English language. His works include tragedies like Hamlet and Macbeth, comedies like A Midsummer Night's Dream, and sonnets that explore themes of love, time, and mortality.",
+            "essay writing": "Essay writing involves organizing thoughts and arguments in a structured format with an introduction, body paragraphs, and conclusion. Good essays have clear thesis statements, supporting evidence, and logical flow between ideas.",
+            "grammar": "Grammar is the system of rules that governs how words are combined to form meaningful sentences. It includes parts of speech, sentence structure, punctuation, and syntax that help communicate ideas clearly."
         }
     
     def get_educational_quotes(self) -> List[str]:
@@ -160,3 +187,121 @@ class AIProcessor:
             'data': activities,
             'total_activities': sum(activities)
         }
+    
+    def generate_quiz(self, topic: str, difficulty: str = "medium") -> dict:
+        """Generate a quiz based on topic and difficulty"""
+        quiz_questions = {
+            "science": {
+                "easy": [
+                    {
+                        "question": "What gas do plants take in during photosynthesis?",
+                        "options": ["Oxygen", "Carbon Dioxide", "Nitrogen", "Helium"],
+                        "correct": 1,
+                        "explanation": "Plants take in carbon dioxide and release oxygen during photosynthesis."
+                    },
+                    {
+                        "question": "How many bones are in an adult human body?",
+                        "options": ["206", "250", "186", "300"],
+                        "correct": 0,
+                        "explanation": "An adult human skeleton has 206 bones."
+                    }
+                ],
+                "medium": [
+                    {
+                        "question": "What is the powerhouse of the cell?",
+                        "options": ["Nucleus", "Mitochondria", "Ribosome", "Endoplasmic Reticulum"],
+                        "correct": 1,
+                        "explanation": "Mitochondria produce ATP, the energy currency of cells."
+                    },
+                    {
+                        "question": "Which law states that energy cannot be created or destroyed?",
+                        "options": ["Newton's First Law", "Law of Conservation of Energy", "Boyle's Law", "Charles's Law"],
+                        "correct": 1,
+                        "explanation": "The Law of Conservation of Energy states that energy can only be transformed from one form to another."
+                    }
+                ]
+            },
+            "math": {
+                "easy": [
+                    {
+                        "question": "What is 15% of 200?",
+                        "options": ["25", "30", "35", "40"],
+                        "correct": 1,
+                        "explanation": "15% of 200 = 0.15 × 200 = 30"
+                    },
+                    {
+                        "question": "What is the area of a rectangle with length 8 and width 5?",
+                        "options": ["13", "26", "40", "45"],
+                        "correct": 2,
+                        "explanation": "Area = length × width = 8 × 5 = 40"
+                    }
+                ],
+                "medium": [
+                    {
+                        "question": "Solve for x: 2x + 5 = 15",
+                        "options": ["5", "10", "7.5", "2.5"],
+                        "correct": 0,
+                        "explanation": "2x + 5 = 15, so 2x = 10, therefore x = 5"
+                    },
+                    {
+                        "question": "What is the slope of the line y = 3x - 2?",
+                        "options": ["3", "-2", "1", "0"],
+                        "correct": 0,
+                        "explanation": "In the equation y = mx + b, m is the slope. Here, m = 3."
+                    }
+                ]
+            },
+            "programming": {
+                "easy": [
+                    {
+                        "question": "Which of these is a programming language?",
+                        "options": ["HTML", "Python", "CSS", "JSON"],
+                        "correct": 1,
+                        "explanation": "Python is a programming language, while HTML and CSS are markup/styling languages."
+                    },
+                    {
+                        "question": "What does 'print()' do in Python?",
+                        "options": ["Calculates numbers", "Displays output", "Creates variables", "Loops code"],
+                        "correct": 1,
+                        "explanation": "The print() function displays output to the console."
+                    }
+                ],
+                "medium": [
+                    {
+                        "question": "What is the time complexity of binary search?",
+                        "options": ["O(n)", "O(log n)", "O(n²)", "O(1)"],
+                        "correct": 1,
+                        "explanation": "Binary search has O(log n) time complexity because it halves the search space each iteration."
+                    },
+                    {
+                        "question": "Which data structure uses LIFO principle?",
+                        "options": ["Queue", "Stack", "Array", "Tree"],
+                        "correct": 1,
+                        "explanation": "Stack uses Last In, First Out (LIFO) principle."
+                    }
+                ]
+            }
+        }
+        
+        topic_lower = topic.lower()
+        if topic_lower in quiz_questions and difficulty in quiz_questions[topic_lower]:
+            import random
+            questions = quiz_questions[topic_lower][difficulty]
+            return {
+                "topic": topic,
+                "difficulty": difficulty,
+                "questions": random.sample(questions, min(len(questions), 3))
+            }
+        else:
+            return {
+                "topic": topic,
+                "difficulty": difficulty,
+                "questions": [
+                    {
+                        "question": f"What is an important concept in {topic}?",
+                        "options": ["Concept A", "Concept B", "Concept C", "All of the above"],
+                        "correct": 3,
+                        "explanation": f"This is a general question about {topic}. Consider studying the fundamental concepts."
+                    }
+                ]
+            }

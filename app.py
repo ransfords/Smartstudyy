@@ -77,6 +77,17 @@ def process_summary():
         summary = ai_processor.summarize_text(text)
         session['last_summary'] = summary
         session['summaries_count'] = session.get('summaries_count', 0) + 1
+        
+        # Save to history
+        from datetime import datetime
+        summary_history = session.get('summary_history', [])
+        summary_history.append({
+            'text': text[:100] + '...' if len(text) > 100 else text,
+            'summary': summary[:200] + '...' if len(summary) > 200 else summary,
+            'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        })
+        session['summary_history'] = summary_history[-20:]  # Keep last 20
+        
         return render_template('summarizer.html', text=text, summary=summary)
     return render_template('summarizer.html', error="Please enter text to summarize")
 
@@ -94,8 +105,70 @@ def generate_flashcards():
         flashcards = ai_processor.generate_flashcards(text)
         session['current_flashcards'] = flashcards
         session['flashcards_count'] = session.get('flashcards_count', 0) + len(flashcards)
+        
+        # Save to history
+        from datetime import datetime
+        flashcard_history = session.get('flashcard_history', [])
+        flashcard_history.append({
+            'text': text[:100] + '...' if len(text) > 100 else text,
+            'count': len(flashcards),
+            'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        })
+        session['flashcard_history'] = flashcard_history[-20:]  # Keep last 20
+        
         return render_template('flashcards.html', flashcards=flashcards)
     return render_template('flashcards.html', error="Please enter text to generate flashcards")
+
+@app.route('/quiz')
+def quiz():
+    """Interactive quiz page"""
+    return render_template('quiz.html')
+
+@app.route('/quiz/generate', methods=['POST'])
+def generate_quiz():
+    """Generate a quiz"""
+    topic = request.form.get('topic', 'science')
+    difficulty = request.form.get('difficulty', 'medium')
+    
+    quiz_data = ai_processor.generate_quiz(topic, difficulty)
+    session['current_quiz'] = quiz_data
+    session['quiz_answers'] = {}
+    
+    return render_template('quiz.html', quiz=quiz_data)
+
+@app.route('/quiz/submit', methods=['POST'])
+def submit_quiz():
+    """Submit quiz answers"""
+    quiz_data = session.get('current_quiz', {})
+    if not quiz_data:
+        return redirect(url_for('quiz'))
+    
+    answers = {}
+    score = 0
+    total = len(quiz_data.get('questions', []))
+    
+    for i, question in enumerate(quiz_data.get('questions', [])):
+        user_answer = request.form.get(f'question_{i}')
+        if user_answer is not None:
+            user_answer = int(user_answer)
+            answers[i] = {
+                'user_answer': user_answer,
+                'correct_answer': question['correct'],
+                'is_correct': user_answer == question['correct'],
+                'explanation': question['explanation']
+            }
+            if user_answer == question['correct']:
+                score += 1
+    
+    session['quiz_results'] = {
+        'score': score,
+        'total': total,
+        'percentage': round((score / total) * 100) if total > 0 else 0,
+        'answers': answers
+    }
+    session['quizzes_count'] = session.get('quizzes_count', 0) + 1
+    
+    return render_template('quiz.html', quiz=quiz_data, results=session['quiz_results'])
 
 @app.route('/progress')
 def progress():
@@ -109,6 +182,34 @@ def progress():
         'questions': session.get('questions_count', 0)
     }
     return render_template('progress.html', activity_data=activity_data, stats=stats)
+
+@app.route('/history')
+def history():
+    """Activity history page"""
+    history_data = {
+        'summaries': session.get('summary_history', []),
+        'flashcards': session.get('flashcard_history', []),
+        'chats': session.get('chat_history', [])
+    }
+    return render_template('history.html', history=history_data)
+
+@app.route('/history/clear', methods=['POST'])
+def clear_history():
+    """Clear activity history"""
+    activity_type = request.form.get('type', 'all')
+    
+    if activity_type == 'all':
+        session.pop('summary_history', None)
+        session.pop('flashcard_history', None)
+        session.pop('chat_history', None)
+    elif activity_type == 'summaries':
+        session.pop('summary_history', None)
+    elif activity_type == 'flashcards':
+        session.pop('flashcard_history', None)
+    elif activity_type == 'chats':
+        session.pop('chat_history', None)
+    
+    return redirect(url_for('history'))
 
 @app.route('/about')
 def about():
